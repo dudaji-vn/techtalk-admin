@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-import VocabularyIcon from "../Icons/VocabularyIcon";
 import { ROUTE } from "../../const/path";
-import VocabularyActiveIcon from "../Icons/VocabularyActiveIcon";
 import LectureActiveIcon from "../Icons/LectureActiveIcon";
 import LectureIcon from "../Icons/LectureIcon";
+import VocabularyActiveIcon from "../Icons/VocabularyActiveIcon";
+import VocabularyIcon from "../Icons/VocabularyIcon";
 
 interface SidebarProps {
   sidebarOpen: boolean;
