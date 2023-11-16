@@ -106,7 +106,6 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
         return (
           <input
             onChange={(e) => {
-              console.log(inputProps.value);
               onChange && onChange(e);
               inputProps.onChange(e);
             }}

@@ -4,7 +4,7 @@ export const authEndpoint = {
 };
 
 export const lectureEndpoint = {
-  getAll: "lecture/all",
+  getAll: "lecture/allForAdmin",
   addOrUpdateLecture: "lecture/addOrUpdateLecture",
 };
 
