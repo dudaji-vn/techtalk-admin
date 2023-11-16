@@ -39,7 +39,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
   useEffect(() => {
     if (defaultValue) {
-      console.log(defaultValue);
       const selectedOption = options.find((item) =>
         [item.value, item.label].includes(defaultValue)
       );
