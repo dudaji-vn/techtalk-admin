@@ -7,6 +7,7 @@ import { ROUTE } from "../../const/path";
 import VocabularyActiveIcon from "../Icons/VocabularyActiveIcon";
 import LectureActiveIcon from "../Icons/LectureActiveIcon";
 import LectureIcon from "../Icons/LectureIcon";
+import { overrideTailwindClasses } from "tailwind-override";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -89,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`bg-sidebar absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden duration-300 ease-linear  lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -130,17 +131,22 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
 
             <ul className="mb-6 flex flex-col gap-1.5">
               {navigationLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`rounded-2xl group relative flex items-center gap-2.5 rounded-sm p-4 font-medium text-secondary duration-300 ease-in-out ${
-                      link.active && "bg-lightSidebar dark:bg-meta-4"
-                    }`}
-                  >
+                <div
+                  className={overrideTailwindClasses(
+                    `${
+                      !link.active && "hover:bg-sidebarHover "
+                    }  rounded-2xl group relative flex items-center  font-medium text-secondary ${
+                      link.active &&
+                      "border rounded-2xl bg-lightSidebar dark:bg-meta-4"
+                    }`
+                  )}
+                  key={link.href}
+                >
+                  <Link className="w-full flex p-4 gap-2.5" href={link.href}>
                     {link.active ? link.iconActive : link.icon}
                     {link.text}
                   </Link>
-                </li>
+                </div>
               ))}
             </ul>
           </div>
