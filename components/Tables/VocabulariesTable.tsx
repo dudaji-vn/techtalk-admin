@@ -122,7 +122,7 @@ export default function VocabulariesTable(props: IVocabulariesTableProps) {
         <DataGrid
           key={"voca-table"}
           getRowId={(item) => item.vocabularyId}
-          rows={[...data, ...data, ...data]}
+          rows={data}
           columns={columns}
           onRowClick={handleRowClick}
         />
