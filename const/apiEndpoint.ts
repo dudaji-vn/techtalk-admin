@@ -1,4 +1,4 @@
-export const baseApiUrl = "https://r5200nc8-5000.asse.devtunnels.ms/api";
+export const baseApiUrl = "https://techtalk-backend-delta.vercel.app/api";
 export const authEndpoint = {
   login: "auth/adminLogin",
 };
