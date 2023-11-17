@@ -30,26 +30,8 @@ export default function LecturesPage(props: ILecturePageProps) {
     setType("edit");
     setOpenModal(true);
   };
-  const handleRowClick = (params: any) => {
-    setSelectedLectureId(params.id);
-    setType("edit");
-    setOpenModal(true);
-  };
-  const columns: GridColDef[] = [
-    {
-      field: "lectureName",
-      headerName: "Lecture Name",
-      minWidth: 300,
-    },
-    {
-      field: "imgSrc",
-      headerName: "Image link",
-      type: "number",
-      minWidth: 450,
-      align: "left",
-      headerAlign: "left",
-    },
 
+  const columns: GridColDef[] = [
     {
       field: "actions",
       type: "actions",
@@ -67,6 +49,24 @@ export default function LecturesPage(props: ILecturePageProps) {
           />,
         ];
       },
+    },
+    {
+      field: "imgSrc",
+      headerName: "Image",
+      type: "number",
+
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => (
+        <div className="w-10 h-10">
+          <img src={params.value} />
+        </div>
+      ),
+    },
+    {
+      field: "lectureName",
+      headerName: "Lecture Name",
+      minWidth: 300,
     },
   ];
 
@@ -106,7 +106,7 @@ export default function LecturesPage(props: ILecturePageProps) {
           </button>
         </div>
         <DataGrid
-          onRowClick={handleRowClick}
+          rowHeight={60}
           getRowId={(item) => item.lectureId}
           key={"lectureId"}
           rows={data}

@@ -23,55 +23,8 @@ export default function VocabulariesTable(props: IVocabulariesTableProps) {
     setOpenEditModal(true);
     setSelectedVocabularyId(id as string);
   };
-  const handleRowClick = (params: any) => {
-    setOpenEditModal(true);
-    setSelectedVocabularyId(params.id);
-  };
-  const columns: GridColDef[] = [
-    {
-      field: "numberOrder",
-      headerName: "Number Order",
-      minWidth: 120,
-      editable: true,
-    },
-    {
-      field: "lectureName",
-      headerName: "Lecture Name",
-      minWidth: 220,
-      editable: true,
-    },
-    {
-      field: "titleDisplay",
-      headerName: "Word/ Expression",
-      minWidth: 300,
-      editable: true,
-    },
-    {
-      field: "phonetic",
-      headerName: "Phonetic",
-      type: "string",
-      minWidth: 300,
-      align: "left",
-      headerAlign: "left",
-      editable: true,
-    },
-    {
-      field: "textKR",
-      headerName: "Korean meaning",
-      type: "string",
-      minWidth: 300,
-      align: "left",
-      headerAlign: "left",
-    },
-    {
-      field: "textVN",
-      headerName: "Vietnamese meaning",
-      type: "string",
-      minWidth: 300,
-      align: "left",
-      headerAlign: "left",
-    },
 
+  const columns: GridColDef[] = [
     {
       field: "actions",
       type: "actions",
@@ -89,6 +42,45 @@ export default function VocabulariesTable(props: IVocabulariesTableProps) {
           />,
         ];
       },
+    },
+    {
+      field: "numberOrder",
+      headerName: "Number Order",
+      minWidth: 120,
+    },
+    {
+      field: "lectureName",
+      headerName: "Lecture Name",
+      minWidth: 220,
+    },
+    {
+      field: "titleDisplay",
+      headerName: "Word/ Expression",
+      minWidth: 300,
+    },
+    {
+      field: "phonetic",
+      headerName: "Phonetic",
+      type: "string",
+      minWidth: 300,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "textKR",
+      headerName: "Korean meaning",
+      type: "string",
+      minWidth: 300,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "textVN",
+      headerName: "Vietnamese meaning",
+      type: "string",
+      minWidth: 300,
+      align: "left",
+      headerAlign: "left",
     },
   ];
 
@@ -124,7 +116,6 @@ export default function VocabulariesTable(props: IVocabulariesTableProps) {
           getRowId={(item) => item.vocabularyId}
           rows={data}
           columns={columns}
-          onRowClick={handleRowClick}
         />
       </Box>
     </>
