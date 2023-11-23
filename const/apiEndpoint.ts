@@ -1,4 +1,4 @@
-export const baseApiUrl = "https://techtalk-backend-delta.vercel.app/api";
+export const baseApiUrl = "https://techtalk-02ik.onrender.com/api";
 export const authEndpoint = {
   login: "auth/adminLogin",
 };
