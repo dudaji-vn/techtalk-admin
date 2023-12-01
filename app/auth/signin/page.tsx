@@ -1,11 +1,11 @@
-"use client";
-import Input from "@/components/Input";
-import { keyStorage } from "@/const/keyStorage";
-import { IFormLogin } from "@/interfaces/auth";
-import { authService } from "@/services/auth.service";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toastError } from "@/utils/toast";
+'use client';
+import InputController from '@/components/InputController';
+import { keyStorage } from '@/const/keyStorage';
+import { IFormLogin } from '@/interfaces/auth';
+import { authService } from '@/services/auth.service';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toastError } from '@/utils/toast';
 const SignIn = () => {
   const router = useRouter();
   const {
@@ -19,33 +19,33 @@ const SignIn = () => {
       .login(data)
       .then(async (accessToken) => {
         await localStorage.setItem(keyStorage.accessToken, accessToken);
-        router.push("/dashboard/lectures");
+        router.push('/home/lectures');
       })
       .catch((err) => {
-        toastError("username or password not correct");
+        toastError('username or password not correct');
       });
   });
 
   return (
     <form onSubmit={onSubmit} className="w-[480px] rounded-[5px] bg-greyCt p-8">
-      <Input
+      <InputController
         className="!bg-greyCt"
         name="username"
         control={control}
         type="text"
         label="Username"
         rules={{
-          required: "Username is required",
+          required: 'Username is required',
         }}
         error={errors.username?.message}
       />
-      <Input
+      <InputController
         className="!bg-greyCt"
         name="password"
         control={control}
         type="password"
         rules={{
-          required: "Password is required",
+          required: 'Password is required',
         }}
         label="Password"
         error={errors.password?.message}
