@@ -29,7 +29,8 @@
 
 @layer base {
   body {
-    @apply font-inter  text-base bg-white relative z-1;
+    @apply font-inter  text-base bg-white100 relative z-1;
+    box-sizing: border-box;
   }
 }
 
