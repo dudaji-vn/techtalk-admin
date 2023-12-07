@@ -15,7 +15,7 @@ const Typography: FC<TypoProps> = ({ type: typoStyle, children, ...rest }) => {
       className = 'text-sm';
       break;
     case 'normal':
-      className = 'font-normal';
+      className = 'text-base font-normal';
       break;
     case 'italic':
       className = 'italic';

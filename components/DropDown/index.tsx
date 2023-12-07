@@ -57,19 +57,19 @@ const Dropdown: React.FC<DropdownProps> = ({ label, options, className, onChange
     <div className={overrideTailwindClasses(`${className}`)}>
       <label className=" flex justify-between text-xs font-bold">{label}</label>
       <div className="relative z-20 bg-white">
-        <button
+        <div
           className="z-20 w-11 h-11 flex items-center justify-center rounded border bg-primary outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input cursor-pointer"
           onClick={toggleDropdown}
         >
           <ArrowDownIcon />
-        </button>
+        </div>
         {isOpen && (
           <div className="max-h-[300px] w-[120px] overflow-y-auto absolute right-0 mt-2 bg-white  border border-stroke rounded">
             {options.map((option) => (
               <div
                 key={option.value}
                 className={overrideTailwindClasses(
-                  `cursor-pointer  p-2 transition hover:bg-primary hover:text-white ${
+                  `cursor-pointer  p-2 transition hover:bg-sidebarHover hover:text-white ${
                     option.value === selectedValue.value && 'text-white bg-primary'
                   }`
                 )}

@@ -99,7 +99,6 @@ const LectureContent = (props: ILectureContentProps) => {
   useEffect(() => {
     setValue('lectureName', type === 'create' ? '' : lecture.lectureName);
     setValue('imgSrc', lecture.imgSrc);
-    setValue('status', lecture.status);
   }, [lecture]);
   useEffect(() => {
     setValue('listVocabulary', type === 'create' ? initRows : vocabularies);
@@ -173,28 +172,27 @@ const LectureContent = (props: ILectureContentProps) => {
                   textVN: item.textVN.value,
                   numberOrder: item.numberOrder,
                 };
-              }) as IFormVocabulary[];
+              }) as IVocabulariesByLectureResponse[];
 
-              if (!vocabularies || vocabularies.length === 0 || !getValues('lectureName')) {
+              if (!vocabularies || vocabularies.length === 0 || !getValues('lectureName') || !getValues('imgSrc')) {
                 setDisabled(true);
                 return;
               }
               let vocabulariesFilter = vocabularies.filter((item) => item.phonetic || item.textKR || item.textVN || item.titleDisplay);
-              // if (vocabulariesFilter.length === 0) {
-              //   setDisabled(true);
-              //   return;
-              // }
+              if (vocabulariesFilter.length === 0) {
+                setDisabled(true);
+                return;
+              }
 
               const isDisabled = !vocabulariesFilter.every((item) => item.phonetic && item.textKR && item.textVN && item.titleDisplay);
-
+              // setValue('listVocabulary', vocabularies);
               setDisabled(isDisabled);
             }}
             processRowUpdate={(newData, oldData) => {
               let newVocabularies = getValues('listVocabulary');
               newVocabularies[newData.numberOrder - 1] = newData;
               setValue('listVocabulary', newVocabularies);
-              console.log('process');
-              return newVocabularies;
+              // return newVocabularies;
             }}
             rows={rows}
             disableRowSelectionOnClick
