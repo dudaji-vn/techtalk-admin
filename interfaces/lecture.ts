@@ -1,4 +1,4 @@
-import { IFormVocabulary, IVocabulariesByLectureResponse } from './vocabulary';
+import { IVocabulariesByLectureResponse } from './vocabulary';
 
 export interface ILectureItem {
   lectureId: string;
@@ -14,8 +14,12 @@ export interface IFormLecture {
 }
 
 export interface IFormLectureAndVocabulary {
-  status: string;
+  status: 'Draft' | 'Published';
   lectureName: string;
   imgSrc: string;
   listVocabulary: IVocabulariesByLectureResponse[];
+}
+export interface IChangeStatusLectureRequest {
+  lectureId: string;
+  status: 'Draft' | 'Published';
 }

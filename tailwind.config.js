@@ -18,6 +18,7 @@ module.exports = {
       white: '#FFFFFF',
 
       warning: '#EAB308',
+      success: '#34D399',
       sidebar: '#1F2A37',
       blackCt: '#1e1f22',
       gray50: '#DFE4EA',
