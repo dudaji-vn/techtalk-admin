@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
-import { keyStorage } from "../const/keyStorage";
+import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { keyStorage } from '@/const/keyStorage';
 
 export default function protectPage(Component: any) {
   return function ProtectPage(props: any) {
@@ -10,7 +10,7 @@ export default function protectPage(Component: any) {
 
     useEffect(() => {
       if (!auth) {
-        return redirect("/auth/signin");
+        return redirect('/auth/signin');
       }
     }, []);
 

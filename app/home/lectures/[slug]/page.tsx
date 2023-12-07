@@ -5,7 +5,7 @@ import DotIcon from '@/components/Icons/DotIcon';
 import LectureContent from '@/components/LectureContent';
 import Tabs from '@/components/Tabs';
 import Typography from '@/components/Typo';
-import { IFormLectureAndVocabulary, ILectureItem } from '@/interfaces/lecture';
+import { IChangeStatusLectureRequest, IFormLectureAndVocabulary, ILectureItem } from '@/interfaces/lecture';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,8 @@ import Dropdown from '@/components/DropDown';
 import { ROUTE } from '@/const/path';
 import { useApiLecture } from '@/hooks/api/useApiLecture';
 import { useApiVocabulary } from '@/hooks/api/useApiVocabulary';
+import UnPublishModal from '@/components/UnPublishModal';
+import PublishModal from '@/components/PublishModal';
 
 const DetailLecture = () => {
   const {
@@ -24,10 +26,14 @@ const DetailLecture = () => {
     watch,
     formState: { errors },
   } = useForm<IFormLectureAndVocabulary>({
-    mode: 'onChange',
+    defaultValues: {
+      status: 'Draft',
+    },
   });
-  const { lectures, addOrUpdateLectureAndVocabulary } = useApiLecture();
+  const { lectures, addLectureAndVocabulary, changeStatusLecture } = useApiLecture();
   const [disabled, setDisabled] = useState(true);
+  const [isOpenModalUnPublish, setIsOpenModalUnPublish] = useState<boolean>(false);
+  const [isOpenModalPublish, setIsOpenModalPublish] = useState<boolean>(false);
 
   const router = useRouter();
   const params = useParams();
@@ -36,7 +42,11 @@ const DetailLecture = () => {
     if (!getValues('lectureName')) {
       setDisabled(true);
     }
-  }, [watch('lectureName')]);
+
+    if (!getValues('imgSrc')) {
+      setDisabled(true);
+    }
+  }, [watch('lectureName'), watch('imgSrc')]);
   const lecturesByType = useMemo<ILectureItem[]>(() => {
     if (!lectures) {
       return [];
@@ -49,19 +59,60 @@ const DetailLecture = () => {
     }
     return lecturesByType.findIndex((item) => item.lectureId === params.slug);
   }, [params.slug, lecturesByType?.length]);
-  const onSubmit = handleSubmit((data) => {
-    data.listVocabulary = getValues('listVocabulary');
-    addOrUpdateLectureAndVocabulary(data);
 
-    console.log(getValues('listVocabulary'));
+  const status = useMemo(() => {
+    if (!lecturesByType) {
+      return 'Draft';
+    }
+    return lecturesByType.find((item) => item.lectureId === params.slug)?.status;
+  }, [params.slug, lecturesByType?.length]);
+
+  const onSubmit = handleSubmit((data) => {
+    console.log({ data });
+    data.listVocabulary = data.listVocabulary.filter(
+      (item) => item.numberOrder && item.phonetic && item.titleDisplay && item.textKR && item.textVN
+    );
+    addLectureAndVocabulary(data);
   });
+  const handlePublishLecture = () => {
+    if (params.slug === 'new') {
+      return;
+    }
+    const payload: IChangeStatusLectureRequest = {
+      lectureId: params.slug as string,
+      status: 'Published',
+    };
+    changeStatusLecture(payload);
+  };
 
   const handleGoBack = () => {
     router.push(ROUTE.lectures);
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form>
+      {params.slug && (
+        <UnPublishModal
+          lectureId={params.slug as string}
+          onClose={() => {
+            setIsOpenModalUnPublish(false);
+          }}
+          open={isOpenModalUnPublish}
+        />
+      )}
+      <PublishModal
+        onConfirm={() => {
+          if (params.slug === 'new') {
+            onSubmit();
+          } else {
+            handlePublishLecture();
+          }
+        }}
+        onClose={() => {
+          setIsOpenModalPublish(false);
+        }}
+        open={isOpenModalPublish}
+      />
       <div className="flex items-center border border-gray50 ">
         <Typography className="p-2 min-w-[270px]" type="semi-bold">
           Lectures
@@ -78,24 +129,43 @@ const DetailLecture = () => {
 
           <div className="flex items-center gap-2">
             <Typography type="small">Status:</Typography>
+
             <div className="gap-2 flex items-center">
-              <DotIcon status="draft" />
-              <Typography className="text-warning" type="small">
-                Draft
+              <DotIcon status={status} />
+              <Typography className={`text-sm ${status === 'Draft' ? 'text-warning ' : 'text-success'}`} type="small">
+                {status}
               </Typography>
             </div>
+
             <div className="flex gap-2">
-              <Button>Cancel</Button>
-              <Button styles={'primary'} disabled={disabled}>
+              <Button type="button">Cancel</Button>
+              {/* <Button styles={'primary'} disabled={disabled}>
                 Save
-              </Button>
+              </Button> */}
+              {status === 'Published' && (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setIsOpenModalUnPublish(true);
+                  }}
+                  styles="primary"
+                >
+                  UnPublish
+                </Button>
+              )}
               <Dropdown
                 onChange={(data) => {
                   console.log(data);
+                  setValue('status', data as any);
+                  if (data === 'Published') {
+                    setIsOpenModalPublish(true);
+                  } else {
+                    onSubmit();
+                  }
                 }}
                 options={[
-                  { label: 'Save as draft', value: 'draft' },
-                  { label: 'Public', value: 'public' },
+                  { label: 'Save as draft', value: 'Draft' },
+                  { label: 'Public', value: 'Published' },
                 ]}
               />
             </div>
