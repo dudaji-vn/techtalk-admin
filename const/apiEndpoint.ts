@@ -1,11 +1,12 @@
-export const baseApiUrl = 'http://localhost:5000/api';
+export const baseApiUrl = 'https://wd4dz44x-5000.asse.devtunnels.ms/api';
 export const authEndpoint = {
   login: 'auth/adminLogin',
 };
 
 export const lectureEndpoint = {
   getAll: 'lecture/allForAdmin',
-  addOrUpdateLecture: 'lecture/addOrUpdateLecture',
+  addOrUpdateLectureAndVocabulary: 'lecture/addLectureAndVocabulary',
+  changeStatusLecture: 'lecture/changeStatusLecture',
 };
 
 export const vocabularyEndpoint = {
