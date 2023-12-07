@@ -1,27 +1,25 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { vocabularyService } from "@/services/vocabulary.service";
-import { IFormVocabulary } from "@/interfaces/vocabulary";
-import { toastError, toastSuccess } from "@/utils/toast";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { vocabularyService } from '@/services/vocabulary.service';
+import { IFormVocabulary } from '@/interfaces/vocabulary';
+import { toastError, toastSuccess } from '@/utils/toast';
 
 export const useApiVocabulary = (lectureId?: string) => {
-  const { data: vocabularies } = useQuery({
-    queryKey: ["vocabularies", lectureId ?? "all"],
-    queryFn: () =>
-      vocabularyService.getAllVocabularyByLectureId(lectureId ?? ""),
+  const { data: vocabularies, isLoading } = useQuery({
+    queryKey: ['vocabularies', lectureId ?? 'all'],
+    queryFn: () => vocabularyService.getAllVocabularyByLectureId(lectureId ?? ''),
   });
   const queryClient = useQueryClient();
   const addOrUpdateVocabularyMutation = useMutation({
-    mutationFn: (payload: IFormVocabulary) =>
-      vocabularyService.addOrUpdateVocabulary(payload),
+    mutationFn: (payload: IFormVocabulary) => vocabularyService.addOrUpdateVocabulary(payload),
     onSuccess: () => {
-      toastSuccess("Successfully");
+      toastSuccess('Successfully');
 
       queryClient.invalidateQueries({
-        queryKey: ["vocabularies"],
+        queryKey: ['vocabularies'],
       });
     },
     onError: () => {
-      toastError("Vocabulary has existed");
+      toastError('Vocabulary has existed');
     },
   });
   const addOrUpdateVocabulary = (payload: IFormVocabulary) => {
@@ -29,5 +27,5 @@ export const useApiVocabulary = (lectureId?: string) => {
     const { data } = addOrUpdateVocabularyMutation;
     return data;
   };
-  return { vocabularies, addOrUpdateVocabulary };
+  return { vocabularies, addOrUpdateVocabulary, isLoading };
 };

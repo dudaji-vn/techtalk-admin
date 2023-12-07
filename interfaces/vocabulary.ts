@@ -3,7 +3,7 @@ export interface IVocabulariesByLectureResponse {
   textKR: string;
   vocabularyId: string;
   numberOrder: number;
-  lectureName: string;
+  lectureName?: string;
   titleDisplay: string;
   phonetic: string;
 }
