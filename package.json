@@ -32,6 +32,7 @@
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "jsvectormap": "^1.5.3",
+    "moment": "^2.29.4",
     "multiselect-react-dropdown": "^2.0.25",
     "next": "13.4.12",
     "postcss": "8.4.27",
