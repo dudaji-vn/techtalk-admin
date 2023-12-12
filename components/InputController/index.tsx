@@ -21,13 +21,14 @@ interface InputProps<T extends FieldValues> {
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
   onSelect?: (selectedOptions: IOption[]) => void;
   className?: string;
+  classNameLabel?: string;
 }
 type TInputElement = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
   value: string;
 };
 const InputController = <T extends FieldValues>(props: InputProps<T>) => {
-  const { name, control, type = 'text', label, placeholder, error, options, rules, onChange, onSelect, className } = props;
+  const { name, control, type = 'text', label, placeholder, error, options, rules, onChange, onSelect, className, classNameLabel } = props;
 
   const renderInputElement = (inputProps: TInputElement) => {
     switch (type) {
@@ -114,7 +115,7 @@ const InputController = <T extends FieldValues>(props: InputProps<T>) => {
       render={({ field }) => (
         <div className="block w-full relative my-4">
           {label && (
-            <div className="mb-2 text-sm flex justify-between font-medium">
+            <div className={overrideTailwindClasses(`mb-2 text-sm flex justify-between font-medium ${classNameLabel}`)}>
               <label htmlFor={name}>{label}</label>
             </div>
           )}
