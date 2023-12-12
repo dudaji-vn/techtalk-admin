@@ -1,22 +1,17 @@
-import { useEffect, useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { useApiLecture } from "../../hooks/api/useApiLecture";
-import {
-  IFormVocabulary,
-  IVocabulariesByLectureResponse,
-} from "../../interfaces/vocabulary";
-import Dropdown from "../DropDown";
-import Input from "../Input";
-import Modal, { IModalProps } from "../Modal";
-import { useApiVocabulary } from "../../hooks/api/useApiVocabulary";
+import { useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { useApiLecture } from '../../hooks/api/useApiLecture';
+import { IFormVocabulary, IVocabulariesByLectureResponse } from '../../interfaces/vocabulary';
+import Dropdown from '../DropDown';
+import InputController from '../InputController';
+import Modal, { IModalProps } from '../Modal';
+import { useApiVocabulary } from '../../hooks/api/useApiVocabulary';
 
 interface IAddOrEditVocabularyModalProps extends IModalProps {
-  type: "add" | "edit";
+  type: 'add' | 'edit';
   data?: IVocabulariesByLectureResponse | false | undefined;
 }
-const AddOrEditLectureVocabularyModal = (
-  props: IAddOrEditVocabularyModalProps
-) => {
+const AddOrEditLectureVocabularyModal = (props: IAddOrEditVocabularyModalProps) => {
   const { open, onClose, type, data } = props;
   const {
     handleSubmit,
@@ -30,12 +25,12 @@ const AddOrEditLectureVocabularyModal = (
 
   useEffect(() => {
     if (data) {
-      setValue("numberOrder", data.numberOrder);
-      setValue("phonetic", data.phonetic);
-      setValue("textKR", data.textKR);
-      setValue("textVN", data.textVN);
-      setValue("titleDisplay", data.titleDisplay);
-      setValue("vocabularyId", data.vocabularyId);
+      setValue('numberOrder', data.numberOrder);
+      setValue('phonetic', data.phonetic);
+      setValue('textKR', data.textKR);
+      setValue('textVN', data.textVN);
+      setValue('titleDisplay', data.titleDisplay);
+      setValue('vocabularyId', data.vocabularyId);
     }
   }, [open, data]);
 
@@ -44,14 +39,12 @@ const AddOrEditLectureVocabularyModal = (
       return;
     }
     if (!data) {
-      setValue("lectureId", lectures[0].lectureId);
+      setValue('lectureId', lectures[0].lectureId);
       return;
     }
-    const lecture = lectures.find(
-      (item) => item.lectureName === data.lectureName
-    );
+    const lecture = lectures.find((item) => item.lectureName === data.lectureName);
     if (lecture) {
-      setValue("lectureId", lecture.lectureId);
+      setValue('lectureId', lecture.lectureId);
     }
   }, [lectures?.length, data]);
   const lecturesOption = useMemo(() => {
@@ -63,69 +56,64 @@ const AddOrEditLectureVocabularyModal = (
     return optionLectures;
   }, lectures);
   const onSubmit = handleSubmit((data) => {
-    data.lectureId = getValues("lectureId");
+    data.lectureId = getValues('lectureId');
     addOrUpdateVocabulary(data);
     onClose && onClose();
   });
 
   return (
     <Modal open={open} onClose={onClose}>
-      <form
-        onSubmit={onSubmit}
-        className="w-[480px] max-h-[600px] overflow-y-auto rounded-[5px] "
-      >
-        <h1 className="text-xl font-bold mb-4">
-          {type === "add" ? "Add new vocabulary" : "Update vocabulary"}
-        </h1>
+      <form onSubmit={(e) => e.preventDefault()} className="w-[480px] max-h-[600px] overflow-y-auto rounded-[5px] ">
+        <h1 className="text-xl font-bold mb-4">{type === 'add' ? 'Add new vocabulary' : 'Update vocabulary'}</h1>
         <Dropdown
-          defaultValue={getValues("lectureId")}
+          defaultValue={getValues('lectureId')}
           label="Lecture"
           onChange={(value) => {
-            setValue("lectureId", value);
+            setValue('lectureId', value);
           }}
           options={lecturesOption}
         />
-        <Input
+        <InputController
           name="numberOrder"
           control={control}
           rules={{
-            required: "Field is required",
+            required: 'Field is required',
           }}
           label="Number order"
           error={errors.numberOrder?.message}
         />
-        <Input
+        <InputController
           name="titleDisplay"
           control={control}
           rules={{
-            required: "Field is required",
+            required: 'Field is required',
           }}
           label="Word/expression"
           error={errors.titleDisplay?.message}
         />
-        <Input
+        <InputController
           name="phonetic"
           control={control}
           rules={{
-            required: "Field is required",
+            required: 'Field is required',
           }}
           label="Phonetic"
           error={errors.phonetic?.message}
         />
-        <Input
+        <InputController
           name="textKR"
           control={control}
           rules={{
-            required: "Field is required",
+            required: 'Field is required',
           }}
           label="Korean language"
           error={errors.textKR?.message}
         />
-        <Input
+        <InputController
           name="textVN"
           control={control}
           rules={{
-            required: "Field is required",
+            required: 'Field is required',
           }}
           label="Vietnamese language"
           error={errors.textVN?.message}

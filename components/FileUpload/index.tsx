@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Controller, Path, RegisterOptions } from 'react-hook-form';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
 
 type TPhoto = {

@@ -19,26 +19,27 @@ interface ILectureContentProps {
   errors?: FieldErrors<IFormLectureAndVocabulary>;
   setValue: UseFormSetValue<IFormLectureAndVocabulary>;
   getValues: UseFormGetValues<IFormLectureAndVocabulary>;
-  disabled: boolean;
+  editable: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
 const LectureContent = (props: ILectureContentProps) => {
   const photoRef = useRef<HTMLInputElement>(null);
-  const { vocabularies, control, watch, errors, setValue, lecture, type, getValues, setDisabled, disabled } = props;
-
+  const { vocabularies, control, watch, errors, setValue, lecture, type, getValues, setDisabled, editable } = props;
+  console.log({ type });
   const columns: GridColDef[] = [
     {
       field: 'numberOrder',
       headerName: 'Order',
       minWidth: 50,
+      // editable: editable,
     },
 
     {
       field: 'titleDisplay',
       headerName: 'Word/ Expression',
       minWidth: 220,
-      editable: true,
+      editable: editable,
     },
     {
       field: 'phonetic',
@@ -47,7 +48,7 @@ const LectureContent = (props: ILectureContentProps) => {
       minWidth: 170,
       align: 'left',
       headerAlign: 'left',
-      editable: true,
+      editable: editable,
     },
     {
       field: 'textKR',
@@ -56,7 +57,7 @@ const LectureContent = (props: ILectureContentProps) => {
       minWidth: 300,
       align: 'left',
       headerAlign: 'left',
-      editable: true,
+      editable: editable,
     },
     {
       field: 'textVN',
@@ -65,27 +66,28 @@ const LectureContent = (props: ILectureContentProps) => {
       minWidth: 300,
       align: 'left',
       headerAlign: 'left',
-      editable: true,
+      editable: editable,
     },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      minWidth: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        return [
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Edit"
-            className="textPrimary"
-            // onClick={() => handleEditClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
-    },
+    // {
+    //   field: 'actions',
+    //   type: 'actions',
+    //   headerName: 'Actions',
+    //   minWidth: 100,
+    //   cellClassName: 'actions',
+    //   getActions: ({ id }) => {
+    //     return [
+    //       <GridActionsCellItem
+    //         icon={<DeleteIcon />}
+    //         label="Edit"
+    //         className="textPrimary"
+    //         // onClick={() => handleEditClick(id)}
+    //         color="inherit"
+    //       />,
+    //     ];
+    //   },
+    // },
   ];
+
   const initRows: IVocabulariesByLectureResponse[] = Array.from(Array(10).keys()).map((item) => {
     return {
       numberOrder: item + 1,
@@ -96,16 +98,42 @@ const LectureContent = (props: ILectureContentProps) => {
       vocabularyId: '',
     };
   });
+  const fillFullVocabularies = useMemo(() => {
+    //if (!vocabularies) return [];
+    if (vocabularies.length > 10) return vocabularies;
+    let newVocabularies = [];
+    for (let i = 0; i < 10; i++) {
+      newVocabularies[i] = vocabularies[i]
+        ? {
+            ...vocabularies[i],
+            numberOrder: i + 1,
+          }
+        : {
+            numberOrder: i + 1,
+            phonetic: '',
+            textKR: '',
+            textVN: '',
+            titleDisplay: '',
+            vocabularyId: '',
+          };
+    }
+    console.log({ fullField: newVocabularies });
+
+    return newVocabularies;
+  }, [vocabularies]);
   useEffect(() => {
     setValue('lectureName', type === 'create' ? '' : lecture.lectureName);
     setValue('imgSrc', lecture.imgSrc);
   }, [lecture]);
   useEffect(() => {
-    setValue('listVocabulary', type === 'create' ? initRows : vocabularies);
-  }, [vocabularies.length]);
+    // debugger;
+    setValue('listVocabulary', type === 'create' ? initRows : fillFullVocabularies);
+  }, [fillFullVocabularies]);
   const rows = useMemo<IVocabulariesByLectureResponse[]>(() => {
-    return type === 'create' ? initRows : vocabularies;
-  }, [vocabularies.length, lecture.lectureId]);
+    return type === 'create'
+      ? initRows.sort((a, b) => a.numberOrder - b.numberOrder)
+      : fillFullVocabularies.sort((a, b) => a.numberOrder - b.numberOrder);
+  }, [vocabularies, lecture.lectureId]);
 
   return (
     <div className="">
@@ -190,9 +218,9 @@ const LectureContent = (props: ILectureContentProps) => {
             }}
             processRowUpdate={(newData, oldData) => {
               let newVocabularies = getValues('listVocabulary');
-              newVocabularies[newData.numberOrder - 1] = newData;
+              newVocabularies[newData.numberOrder - 1] = { ...newData };
+              console.log(newVocabularies);
               setValue('listVocabulary', newVocabularies);
-              // return newVocabularies;
             }}
             rows={rows}
             disableRowSelectionOnClick

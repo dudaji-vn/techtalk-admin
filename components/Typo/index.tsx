@@ -4,13 +4,16 @@ import React, { FC, HTMLProps } from 'react';
 import { overrideTailwindClasses } from 'tailwind-override';
 
 interface TypoProps extends HTMLProps<HTMLParagraphElement> {
-  type: 'small' | 'normal' | 'italic' | 'semi-bold';
+  type: 'xs' | 'small' | 'normal' | 'italic' | 'semi-bold' | '3xl';
 }
 
 const Typography: FC<TypoProps> = ({ type: typoStyle, children, ...rest }) => {
   let className = '';
 
   switch (typoStyle) {
+    case 'xs':
+      className = 'text-secondaryText text-xs';
+      break;
     case 'small':
       className = 'text-sm';
       break;
@@ -22,6 +25,9 @@ const Typography: FC<TypoProps> = ({ type: typoStyle, children, ...rest }) => {
       break;
     case 'semi-bold':
       className = 'font-semibold';
+      break;
+    case '3xl':
+      className = 'text-3xl font-semibold';
       break;
 
     default:

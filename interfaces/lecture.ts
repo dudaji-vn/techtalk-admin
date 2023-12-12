@@ -14,6 +14,7 @@ export interface IFormLecture {
 }
 
 export interface IFormLectureAndVocabulary {
+  lectureId: string;
   status: 'Draft' | 'Published';
   lectureName: string;
   imgSrc: string;

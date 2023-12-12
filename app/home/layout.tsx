@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <div className="relative flex flex-1 flex-col max-w-screen overflow-hidden">
         <Header />
         <main>
-          <div className="mx-auto max-w-screen-2xl">{children}</div>
+          <div className="mx-auto max-w-screen-2xl ">{children}</div>
         </main>
       </div>
     </div>
