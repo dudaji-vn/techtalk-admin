@@ -17,5 +17,9 @@ class LectureService {
     const res = await http.put<IApiResponse<boolean>>(lectureEndpoint.changeStatusLecture, payload);
     return res.data.data;
   }
+  async uploadExcelFile(payload: any) {
+    const res = await http.post<IApiResponse<boolean>>(lectureEndpoint.changeStatusLecture, payload);
+    return res.data.data;
+  }
 }
 export const lectureService = new LectureService();

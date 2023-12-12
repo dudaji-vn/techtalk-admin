@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRef } from 'react';
 
-import VocabularyIcon from '../Icons/VocabularyIcon';
-import { ROUTE } from '../../const/path';
-import VocabularyActiveIcon from '../Icons/VocabularyActiveIcon';
-import LectureActiveIcon from '../Icons/LectureActiveIcon';
-import LectureIcon from '../Icons/LectureIcon';
 import { overrideTailwindClasses } from 'tailwind-override';
-import MenuIcon from '../Icons/MenuIcon';
+import { ROUTE } from '../../const/path';
 import DashboardActiveIcon from '../Icons/DashboardActiveIcon';
 import DashboardIcon from '../Icons/DashboardIcon';
+import LectureActiveIcon from '../Icons/LectureActiveIcon';
+import LectureIcon from '../Icons/LectureIcon';
+import MenuIcon from '../Icons/MenuIcon';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -49,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`bg-sidebar absolute left-0 top-0 pt-4 z-9999 flex items-center flex-col h-screen w-20  overflow-y-hidden `}
+      className={`bg-sidebar absolute left-0 top-0 pt-4 z-10 flex items-center flex-col h-screen w-20  overflow-y-hidden `}
     >
       <div className="flex items-center justify-between gap-2 ">
         <MenuIcon />
@@ -62,13 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               {navigationLinks.map((link) => (
                 <div
                   className={overrideTailwindClasses(
-                    `p-4 rounded-2xl flex items-center font-medium text-secondaryText ${!link.active && 'hover:bg-sidebarHover '} ${
+                    ` rounded-2xl flex items-center font-medium text-secondaryText ${!link.active && 'hover:bg-sidebarHover '} ${
                       link.active && 'border rounded-2xl bg-lightSidebar'
                     }`
                   )}
                   key={link.href}
                 >
-                  <Link className="w-full flex gap-2.5" href={link.href}>
+                  <Link className="p-4 w-full flex gap-2.5" href={link.href}>
                     {link.active ? link.iconActive : link.icon}
                   </Link>
                 </div>

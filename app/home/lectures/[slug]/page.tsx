@@ -37,6 +37,7 @@ const DetailLecture = () => {
 
   const router = useRouter();
   const params = useParams();
+
   const { vocabularies } = useApiVocabulary(params.slug as string);
   useEffect(() => {
     if (!getValues('lectureName')) {
@@ -47,6 +48,12 @@ const DetailLecture = () => {
       setDisabled(true);
     }
   }, [watch('lectureName'), watch('imgSrc')]);
+
+  useEffect(() => {
+    if (params.slug !== 'new') {
+      setValue('lectureId', params.slug as string);
+    }
+  }, [params.slug]);
   const lecturesByType = useMemo<ILectureItem[]>(() => {
     if (!lectures) {
       return [];
@@ -91,29 +98,25 @@ const DetailLecture = () => {
 
   return (
     <form>
-      {params.slug && (
-        <UnPublishModal
-          lectureId={params.slug as string}
-          onClose={() => {
-            setIsOpenModalUnPublish(false);
-          }}
-          open={isOpenModalUnPublish}
-        />
-      )}
+      <UnPublishModal
+        key={params.slug as string}
+        lectureId={params.slug as string}
+        onClose={() => {
+          setIsOpenModalUnPublish(false);
+        }}
+        open={isOpenModalUnPublish}
+      />
+
       <PublishModal
         onConfirm={() => {
-          if (params.slug === 'new') {
-            onSubmit();
-          } else {
-            handlePublishLecture();
-          }
+          status === 'Draft' ? onSubmit() : handlePublishLecture();
         }}
         onClose={() => {
           setIsOpenModalPublish(false);
         }}
         open={isOpenModalPublish}
       />
-      <div className="flex items-center border border-gray50 ">
+      <div className="flex items-center border border-gray50">
         <Typography className="p-2 min-w-[270px]" type="semi-bold">
           Lectures
         </Typography>
@@ -153,21 +156,23 @@ const DetailLecture = () => {
                   UnPublish
                 </Button>
               )}
-              <Dropdown
-                onChange={(data) => {
-                  console.log(data);
-                  setValue('status', data as any);
-                  if (data === 'Published') {
-                    setIsOpenModalPublish(true);
-                  } else {
-                    onSubmit();
-                  }
-                }}
-                options={[
-                  { label: 'Save as draft', value: 'Draft' },
-                  { label: 'Public', value: 'Published' },
-                ]}
-              />
+              {status === 'Draft' && (
+                <Dropdown
+                  onChange={(data) => {
+                    console.log(data);
+                    setValue('status', data as any);
+                    if (data === 'Published') {
+                      setIsOpenModalPublish(true);
+                    } else {
+                      onSubmit();
+                    }
+                  }}
+                  options={[
+                    { label: 'Save as draft', value: 'Draft' },
+                    { label: 'Publish', value: 'Published' },
+                  ]}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -183,7 +188,7 @@ const DetailLecture = () => {
               label: lecture.lectureName,
               children: (
                 <LectureContent
-                  disabled={disabled}
+                  editable={status === 'Draft'}
                   setDisabled={setDisabled}
                   getValues={getValues}
                   type={lecture.lectureId === 'new' ? 'create' : 'edit'}

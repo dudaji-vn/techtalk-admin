@@ -76,14 +76,14 @@ export default function Lectures(props: ILecturePageProps) {
 
   return (
     <>
-      <AddOrEditLectureModal
+      {/* <AddOrEditLectureModal
         type={type}
         data={type === 'edit' && (data.find((item) => item.lectureId === selectedLectureId) as IFormLecture)}
         onClose={() => {
           setOpenModal(false);
         }}
         open={openModal}
-      />
+      /> */}
       <Box
         sx={{
           width: '100%',

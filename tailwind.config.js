@@ -72,6 +72,7 @@ module.exports = {
       purpleCt: '#8548c2',
       pinkCt: '#a65f8d',
       blue: 'rgb(17, 100, 163)',
+      error: '#EF4444',
     },
     screens: {
       '2xsm': '375px',

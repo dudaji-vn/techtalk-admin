@@ -1,6 +1,6 @@
-import axios, { type AxiosInstance } from "axios";
-import { keyStorage } from "../const/keyStorage";
-import { baseApiUrl } from "../const/apiEndpoint";
+import axios, { type AxiosInstance } from 'axios';
+import { keyStorage } from '../const/keyStorage';
+import { baseApiUrl } from '../const/apiEndpoint';
 
 export class Http {
   instance: AxiosInstance;
@@ -8,7 +8,7 @@ export class Http {
     this.instance = axios.create({
       baseURL: baseApiUrl,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
@@ -17,7 +17,7 @@ export class Http {
         if (config.headers) {
           const accessToken = localStorage.getItem(keyStorage.accessToken);
           if (!!accessToken) {
-            config.headers.Authorization = accessToken;
+            config.headers.Authorization = `Bearer ${accessToken}`;
           }
         }
         return config;
