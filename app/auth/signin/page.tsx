@@ -22,14 +22,15 @@ const SignIn = () => {
         router.push('/home/lectures');
       })
       .catch((err) => {
-        toastError('username or password not correct');
+        toastError('Username or Password not correct');
       });
   });
 
   return (
     <form onSubmit={onSubmit} className="w-[480px] rounded-[5px] bg-greyCt p-8">
       <InputController
-        className="!bg-greyCt"
+        classNameLabel="text-white"
+        className="text-primary border border-primary"
         name="username"
         control={control}
         type="text"
@@ -40,7 +41,8 @@ const SignIn = () => {
         error={errors.username?.message}
       />
       <InputController
-        className="!bg-greyCt"
+        classNameLabel="text-white"
+        className="text-primary border border-primary"
         name="password"
         control={control}
         type="password"
