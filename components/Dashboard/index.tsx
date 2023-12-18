@@ -1,13 +1,15 @@
-import React, { useMemo } from 'react';
-import Typography from '../Typo';
-import TotalLectureIcon from '../Icons/TotalLectureIcon';
-import PeopleIcon from '../Icons/PeopleIcon';
-import RecordIcon from '../Icons/RecordIcon';
-import Loading from '../Loading';
-import { CircularProgress } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useApiLecture } from '../../hooks/api/useApiLecture';
-import { useApiDashboard } from '../../hooks/api/useApiDashboard';
+import React, { useMemo } from "react";
+import Typography from "../Typo";
+import TotalLectureIcon from "../Icons/TotalLectureIcon";
+import PeopleIcon from "../Icons/PeopleIcon";
+import RecordIcon from "../Icons/RecordIcon";
+import Loading from "../Loading";
+import { Avatar, CircularProgress } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useApiLecture } from "../../hooks/api/useApiLecture";
+import { useApiDashboard } from "../../hooks/api/useApiDashboard";
+import FlagVNIcon from "../Icons/FlagVNIcon";
+import FlagKoreaIcon from "../Icons/FlagKoreaIcon";
 
 interface IAnalystItem {
   icon: JSX.Element;
@@ -15,113 +17,122 @@ interface IAnalystItem {
   text: string;
 }
 const Dashboard = () => {
-  const { analyst } = useApiDashboard();
+  const { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures } = useApiDashboard();
   const analystData: IAnalystItem[] = useMemo(
     () => [
       {
         icon: <TotalLectureIcon />,
         count: analyst?.totalLectures ?? <CircularProgress />,
-        text: 'Total lectures',
+        text: "Total lectures",
       },
       {
         icon: <PeopleIcon />,
         count: analyst?.totalUser ?? <CircularProgress />,
-        text: 'Total users',
+        text: "Total users",
       },
       {
         icon: <RecordIcon />,
         count: analyst?.totalCompletedRecordUser ?? <CircularProgress />,
-        text: 'Users complete recorded',
+        text: "Users complete recorded",
       },
     ],
     [analyst]
   );
-  const columns: GridColDef[] = [
+  const topLectureColumns: GridColDef[] = [
     {
-      field: 'lectureName',
-      headerName: 'Lecture name',
-      type: 'string',
+      field: "lectureName",
+      headerName: "Lecture name",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
     },
     {
-      field: 'numberOfUser',
-      headerName: 'Number of user',
-      type: 'string',
+      field: "total",
+      headerName: "Number of user",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
     },
   ];
   const countryColumns: GridColDef[] = [
     {
-      field: 'country',
-      headerName: 'Country',
-      type: 'string',
+      field: "country",
+      headerName: "Country",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => {
+        return (
+          <div className="flex items-center gap-2">
+            {params.value === "Viet Nam" ? <FlagVNIcon /> : <FlagKoreaIcon />}
+            <p>{params.value}</p>
+          </div>
+        );
+      },
     },
     {
-      field: 'numberOfUser',
-      headerName: 'Number of user',
-      type: 'string',
+      field: "numberOfUser",
+      headerName: "Number of user",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
     },
   ];
   const userCompletedRecordColumns: GridColDef[] = [
     {
-      field: 'nickname',
-      headerName: 'User name',
-      type: 'string',
+      field: "nickName",
+      headerName: "Nick name",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => {
+        return (
+          <div className="flex items-center gap-2">
+            <Avatar>{params.value.slice(0, 1)}</Avatar>
+            <div>{params.value}</div>
+          </div>
+        );
+      },
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      type: 'string',
+      field: "email",
+      headerName: "Email",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
     },
     {
-      field: 'nativeLanguage',
-      headerName: 'Native language',
-      type: 'string',
+      field: "nativeLanguage",
+      headerName: "Native language",
+      type: "string",
       flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => {
+        return <div>{params.value === "vn" ? "Vietnamese" : "Korean"}</div>;
+      },
     },
   ];
 
-  const rows = [
-    {
-      lectureName: 'Pattern 1 ',
-      numberOfUser: 10,
-    },
-    {
-      lectureName: 'Pattern 2',
-      numberOfUser: 20,
-    },
-  ];
   const countryRows = [
     {
-      country: 'vn',
+      country: "vn",
       numberOfUser: 50,
     },
     {
-      country: 'kr',
+      country: "kr",
       numberOfUser: 40,
     },
   ];
   const userCompletedRecordRows = [
     {
-      nickname: 'Linh',
+      nickname: "Linh",
     },
   ];
 
@@ -146,14 +157,14 @@ const Dashboard = () => {
         <div className="mb-4 grid grid-cols-2 gap-4 ">
           <div>
             <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-              <Typography type="normal">Top 5 lecture completed recorded</Typography>
+              <Typography type="semi-bold">Top 5 lecture completed recorded</Typography>
             </div>
             <DataGrid
               className="bg-white"
               rowHeight={60}
               getRowId={(item) => item?.lectureName}
-              columns={columns}
-              rows={rows}
+              columns={topLectureColumns}
+              rows={top5Lectures ?? []}
               disableRowSelectionOnClick
               disableColumnFilter
               disableColumnMenu
@@ -164,15 +175,24 @@ const Dashboard = () => {
             />
           </div>
           <div>
-            <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-              <Typography type="normal">Session by country</Typography>
+            <div className="rounded p-4 bg-white border-t border-r border-l border-gray50 ">
+              <Typography type="semi-bold">Session by country</Typography>
             </div>
             <DataGrid
               className="bg-white"
               rowHeight={60}
               getRowId={(item) => item?.country}
               columns={countryColumns}
-              rows={countryRows}
+              rows={[
+                {
+                  country: "Viet Nam",
+                  numberOfUser: analyst?.totalUserVN,
+                },
+                {
+                  country: "Korea",
+                  numberOfUser: analyst?.totalUserKR,
+                },
+              ]}
               disableRowSelectionOnClick
               disableColumnFilter
               disableColumnMenu
@@ -183,15 +203,32 @@ const Dashboard = () => {
             />
           </div>
         </div>
+        <div className="mb-4">
+          <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
+            <Typography type="semi-bold">Top 50 user complete record 10 lecture in Korean</Typography>
+          </div>
+          <DataGrid
+            rows={topUserCompleteLectureOfKR ?? []}
+            className="bg-white"
+            getRowId={(item) => item?.userId}
+            columns={userCompletedRecordColumns}
+            disableRowSelectionOnClick
+            hideFooter
+            disableColumnFilter
+            disableColumnMenu
+            hideFooterPagination={true}
+            autoHeight
+          />
+        </div>
         <div>
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography type="normal">Top 50 user complete record 10 sentences</Typography>
+            <Typography type="semi-bold">Top 50 user complete record 10 lecture in Viet Nam</Typography>
           </div>
           <DataGrid
             className="bg-white"
-            getRowId={(item) => item?.lectureName}
+            getRowId={(item) => item?.userId}
             columns={userCompletedRecordColumns}
-            rows={rows}
+            rows={topUserCompleteLectureOfVN ?? []}
             disableRowSelectionOnClick
             hideFooter
             disableColumnFilter
