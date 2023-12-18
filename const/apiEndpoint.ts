@@ -1,4 +1,4 @@
-export const baseApiUrl = "https://techtalk-backend-production.onrender.com/api";
+export const baseApiUrl = "https://test-ttalk-backend.onrender.com/api";
 export const authEndpoint = {
   login: "auth/adminLogin",
 };
