@@ -1,4 +1,4 @@
-export const baseApiUrl = "https://test-ttalk-backend.onrender.com/api";
+export const baseApiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const authEndpoint = {
   login: "auth/adminLogin",
 };
