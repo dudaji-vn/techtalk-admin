@@ -109,14 +109,6 @@ const Dashboard = () => {
       align: "left",
       headerAlign: "left",
     },
-    {
-      field: "numberOrder",
-      headerName: "#",
-      type: "string",
-      flex: 1,
-      align: "left",
-      headerAlign: "left",
-    },
   ];
   const userCompletedRecordColumns: GridColDef[] = [
     {
