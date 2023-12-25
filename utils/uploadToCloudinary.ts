@@ -12,10 +12,7 @@ export const uploadToCloudinary = async (files: File[]) => {
       formData.append("cloud_name", "hoquanglinh");
 
       axios
-        .post<ICloudinaryResponse>(
-          "https://api.cloudinary.com/v1_1/hoquanglinh/image/upload",
-          formData
-        )
+        .post<ICloudinaryResponse>("https://api.cloudinary.com/v1_1/hoquanglinh/image/upload", formData)
         .then((response) => {
           resolve({
             url: response.data.url,

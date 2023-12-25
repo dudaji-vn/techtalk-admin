@@ -1,14 +1,14 @@
-import Close from '@mui/icons-material/Close';
-import { CircularProgress } from '@mui/material';
-import React, { ChangeEvent, useRef, useState } from 'react';
-import { useUploadLectureAndVocabularyFromCsvMutation } from '@/hooks/api/useApiFile';
-import { convertXLSXtoCSV } from '@/utils/excel';
-import Button from '../Button';
-import ErrorModal from '../ErrorModal';
-import DangerDeleteIcon from '../Icons/DangerDeleteIcon';
-import UploadIcon from '../Icons/UploadIcon';
-import Modal, { IModalProps } from '../Modal';
-import Typography from '../Typo';
+import Close from "@mui/icons-material/Close";
+import { CircularProgress } from "@mui/material";
+import React, { ChangeEvent, useRef, useState } from "react";
+import { useUploadLectureAndVocabularyFromCsvMutation } from "@/hooks/api/useApiFile";
+import { convertXLSXtoCSV } from "@/utils/excel";
+import Button from "../Button";
+import ErrorModal from "../ErrorModal";
+import DangerDeleteIcon from "../Icons/DangerDeleteIcon";
+import UploadIcon from "../Icons/UploadIcon";
+import Modal, { IModalProps } from "../Modal";
+import Typography from "../Typo";
 interface IImportExcelModalProps extends IModalProps {
   onConfirm?: () => void;
 }
@@ -26,10 +26,9 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
     message: string;
   }>();
   const handleImportTemplate = () => {
-    const link = document.createElement('a');
-    console.log(process.env.PUBLIC_URL);
-    link.href = '/excel/template.xlsx';
-    link.download = 'template.xlsx';
+    const link = document.createElement("a");
+    link.href = "/excel/template.xlsx";
+    link.download = "template.xlsx";
 
     document.body.appendChild(link);
     link.click();
@@ -39,19 +38,18 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
     inputFileRef.current?.click();
   };
   const handleChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('handle change file');
     const file = e.target.files && e.target.files[0];
     if (!file) {
       return;
     }
     setFileInfo(file);
     const csvData = await convertXLSXtoCSV(file);
-    const blob = new Blob([csvData], { type: 'text/csv' });
+    const blob = new Blob([csvData], { type: "text/csv" });
     setCsvFile(blob);
   };
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
+    e.dataTransfer.dropEffect = "copy";
   };
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -59,7 +57,7 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
     const droppedFile = e.dataTransfer.files[0];
 
     if (droppedFile) {
-      console.log('dropped file');
+      console.log("dropped file");
       //   try {
       //     const workbook = await readExcelFile(droppedFile);
       //     console.log('Workbook:', workbook);
@@ -85,7 +83,7 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
           if (!error) {
             return;
           }
-          const arrayError = error.split(';');
+          const arrayError = error.split(";");
           setError({
             message: arrayError[0],
             errorItems: JSON.parse(arrayError[1]),
@@ -96,7 +94,7 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
   };
   const handleDeleteFile = () => {
     if (inputFileRef.current) {
-      inputFileRef.current.value = '';
+      inputFileRef.current.value = "";
     }
     setCsvFile(undefined);
     setFileInfo(undefined);
@@ -104,7 +102,7 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
   return (
     <Modal open={open} onClose={onClose}>
       {error && <ErrorModal error={error} open={!!error} onClose={() => setError(undefined)} />}
-      <div className={isPending ? 'pointer-events-none cursor-not-allowed' : ''}>
+      <div className={isPending ? "pointer-events-none cursor-not-allowed" : ""}>
         <div className="flex gap-4 justify-between items-center ">
           <Typography type="semi-bold">Import</Typography>
           <div className="cursor-pointer" onClick={onClose}>
@@ -115,10 +113,10 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
           <ul className="ml-4 list-disc mb-4">
             <li>
               <Typography type="normal">
-                For accurate import results, please use our{' '}
+                For accurate import results, please use our{" "}
                 <span onClick={handleImportTemplate} className="text-primary underline cursor-pointer">
                   Template file here
-                </span>{' '}
+                </span>{" "}
                 and upload when you complete
               </Typography>
             </li>
@@ -145,7 +143,7 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
             <Typography type="normal" className="mb-2">
               <span onClick={handleImportTemplate} className="text-primary">
                 Click to upload
-              </span>{' '}
+              </span>{" "}
               or drag and drop
             </Typography>
             <Typography type="xs">Support excel</Typography>

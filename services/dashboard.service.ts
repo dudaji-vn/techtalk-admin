@@ -1,6 +1,8 @@
 import { dashboardEndpoint } from "@/const/apiEndpoint";
 import { IApiResponse } from "@/interfaces/http";
 import http from "./http.service";
+import { arrayWithIndexItem } from "../utils/array";
+import { IAnalyst, IUserCompleteLecture } from "../interfaces/dashboard";
 
 class DashboardService {
   async getAnalyst() {
@@ -8,13 +10,13 @@ class DashboardService {
     return res.data.data;
   }
   async getTopUserCompleteLecture({ country, numberLecture }: { country: string; numberLecture?: number }) {
-    const res = await http.get<IApiResponse<any>>(dashboardEndpoint.getTopUserCompleteLecture, {
+    const res = await http.get<IApiResponse<IUserCompleteLecture[]>>(dashboardEndpoint.getTopUserCompleteLecture, {
       params: {
         country,
         numberLecture: 10,
       },
     });
-    return res.data.data;
+    return arrayWithIndexItem(res.data.data);
   }
   async getTop5Lectures() {
     const res = await http.get<IApiResponse<any>>(dashboardEndpoint.getTop5Lectures);

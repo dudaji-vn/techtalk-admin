@@ -1,15 +1,20 @@
-import React, { useMemo } from "react";
-import Typography from "../Typo";
-import TotalLectureIcon from "../Icons/TotalLectureIcon";
-import PeopleIcon from "../Icons/PeopleIcon";
-import RecordIcon from "../Icons/RecordIcon";
-import Loading from "../Loading";
 import { Avatar, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useApiLecture } from "../../hooks/api/useApiLecture";
+import { useMemo, useState } from "react";
 import { useApiDashboard } from "../../hooks/api/useApiDashboard";
-import FlagVNIcon from "../Icons/FlagVNIcon";
+import { formatDate } from "../../utils/date";
+import { exportToExcel } from "../../utils/excel";
+import Button from "../Button";
+import ExportIcon from "../Icons/ExportIcon";
 import FlagKoreaIcon from "../Icons/FlagKoreaIcon";
+import FlagVNIcon from "../Icons/FlagVNIcon";
+import PeopleIcon from "../Icons/PeopleIcon";
+import RecordIcon from "../Icons/RecordIcon";
+import SearchIcon from "../Icons/SearchIcon";
+import TotalLectureIcon from "../Icons/TotalLectureIcon";
+import Input from "../Input";
+import Typography from "../Typo";
+import { IUserCompleteLecture } from "../../interfaces/dashboard";
 
 interface IAnalystItem {
   icon: JSX.Element;
@@ -18,6 +23,29 @@ interface IAnalystItem {
 }
 const Dashboard = () => {
   const { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures } = useApiDashboard();
+  const [textSearchVN, setTextSearchVN] = useState("");
+  const [textSearchKR, setTextSearchKR] = useState("");
+  const filterUser = (users: IUserCompleteLecture[], text: string) => {
+    if (!text) {
+      return users;
+    }
+    return users.filter((item) =>
+      [item.email, item.index, item.nickName, item.lastCompleted].some((val) => val.toString().includes(text))
+    );
+  };
+
+  const searchTopUserCompleteLectureOfKR = useMemo(() => {
+    if (!topUserCompleteLectureOfKR || topUserCompleteLectureOfKR.length === 0) {
+      return [];
+    }
+    return filterUser(topUserCompleteLectureOfKR, textSearchKR);
+  }, [textSearchKR, topUserCompleteLectureOfKR?.length]);
+  const searchTopUserCompleteLectureOfVN = useMemo(() => {
+    if (!topUserCompleteLectureOfVN || topUserCompleteLectureOfVN.length === 0) {
+      return [];
+    }
+    return filterUser(topUserCompleteLectureOfVN, textSearchVN);
+  }, [textSearchVN, topUserCompleteLectureOfVN?.length]);
   const analystData: IAnalystItem[] = useMemo(
     () => [
       {
@@ -81,8 +109,25 @@ const Dashboard = () => {
       align: "left",
       headerAlign: "left",
     },
+    {
+      field: "numberOrder",
+      headerName: "#",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+    },
   ];
   const userCompletedRecordColumns: GridColDef[] = [
+    {
+      field: "index",
+      headerName: "#",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => params.value + 1,
+    },
     {
       field: "nickName",
       headerName: "Nick name",
@@ -93,7 +138,7 @@ const Dashboard = () => {
       renderCell: (params) => {
         return (
           <div className="flex items-center gap-2">
-            <Avatar>{params.value.slice(0, 1)}</Avatar>
+            <Avatar>{params.value?.slice(0, 1)}</Avatar>
             <div>{params.value}</div>
           </div>
         );
@@ -108,35 +153,38 @@ const Dashboard = () => {
       headerAlign: "left",
     },
     {
-      field: "nativeLanguage",
-      headerName: "Native language",
+      field: "lastCompleted",
+      headerName: "Completed at",
       type: "string",
       flex: 1,
       align: "left",
       headerAlign: "left",
       renderCell: (params) => {
-        return <div>{params.value === "vn" ? "Vietnamese" : "Korean"}</div>;
+        return <div>{formatDate(params.value)}</div>;
       },
     },
   ];
 
-  const countryRows = [
-    {
-      country: "vn",
-      numberOfUser: 50,
-    },
-    {
-      country: "kr",
-      numberOfUser: 40,
-    },
-  ];
-  const userCompletedRecordRows = [
-    {
-      nickname: "Linh",
-    },
-  ];
-
-  console.log(analyst);
+  const handleExportCSV = (rows: any) => {
+    const customSource = rows.map((item: any) => {
+      return {
+        Order: item.index + 1,
+        "Nick name": item.nickName,
+        Email: item.email,
+        "Completed at": formatDate(item.lastCompleted),
+      };
+    });
+    exportToExcel({
+      data: customSource,
+      fileName: "data.xlsx",
+      colInfo: [
+        { width: 12, name: "Order" },
+        { width: 30, name: "Nick name" },
+        { width: 30, name: "Email" },
+        { width: 25, name: "Completed at" },
+      ],
+    });
+  };
   return (
     <div className="">
       <div className="p-4 border border-gray50">
@@ -205,36 +253,83 @@ const Dashboard = () => {
         </div>
         <div className="mb-4">
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography type="semi-bold">Top 50 user complete record 10 lecture in Korean</Typography>
+            <Typography className="mb-8" type="semi-bold">
+              Top 50 user complete record 10 lecture in Korean
+            </Typography>
+            <div className="flex justify-between">
+              <Input
+                onChange={(e) => {
+                  setTextSearchKR(e.target.value);
+                }}
+                icon={<SearchIcon />}
+                placeholder="Search"
+              />
+              <Button
+                onClick={() => handleExportCSV(topUserCompleteLectureOfKR)}
+                className="border border-primary"
+                variant="contained"
+                icon={<ExportIcon />}
+              >
+                Export CSV
+              </Button>
+            </div>
           </div>
           <DataGrid
-            rows={topUserCompleteLectureOfKR ?? []}
+            rows={searchTopUserCompleteLectureOfKR ?? []}
             className="bg-white"
             getRowId={(item) => item?.userId}
             columns={userCompletedRecordColumns}
             disableRowSelectionOnClick
-            hideFooter
-            disableColumnFilter
-            disableColumnMenu
-            hideFooterPagination={true}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 7,
+                },
+              },
+            }}
+            pageSizeOptions={[7, 10, 20, 50]}
             autoHeight
           />
         </div>
         <div>
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography type="semi-bold">Top 50 user complete record 10 lecture in Viet Nam</Typography>
+            <Typography className="mb-8" type="semi-bold">
+              Top 50 user complete record 10 lecture in Viet Nam
+            </Typography>
+            <div className="flex justify-between">
+              <Input
+                onChange={(e) => {
+                  setTextSearchVN(e.target.value);
+                }}
+                icon={<SearchIcon />}
+                placeholder="Search"
+              />
+              <Button
+                onClick={() => handleExportCSV(topUserCompleteLectureOfVN)}
+                className="border border-primary"
+                variant="contained"
+                icon={<ExportIcon />}
+              >
+                Export CSV
+              </Button>
+            </div>
           </div>
+
           <DataGrid
             className="bg-white"
             getRowId={(item) => item?.userId}
             columns={userCompletedRecordColumns}
-            rows={topUserCompleteLectureOfVN ?? []}
-            disableRowSelectionOnClick
-            hideFooter
-            disableColumnFilter
-            disableColumnMenu
-            hideFooterPagination={true}
+            rows={searchTopUserCompleteLectureOfVN ?? []}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 7,
+                },
+              },
+            }}
+            pageSizeOptions={[7, 10, 20, 50]}
             autoHeight
+            disableRowSelectionOnClick
           />
         </div>
       </div>
