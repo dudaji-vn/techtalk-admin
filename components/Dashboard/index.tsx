@@ -245,8 +245,12 @@ const Dashboard = () => {
         </div>
         <div className="mb-4">
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography className="mb-8" type="semi-bold">
-              Top 50 user complete record 10 lecture in Korean
+            <Typography className="mb-8 flex" type="semi-bold">
+              Top 50
+              <span className="px-1">
+                <FlagKoreaIcon />
+              </span>
+              Korean users have completed recording 10 lectures
             </Typography>
             <div className="flex justify-between">
               <Input
@@ -285,8 +289,12 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography className="mb-8" type="semi-bold">
-              Top 50 user complete record 10 lecture in Viet Nam
+            <Typography className="mb-8 flex" type="semi-bold">
+              Top 50
+              <span className="px-1">
+                <FlagVNIcon />
+              </span>
+              Vietnamese users have completed recording 10 lectures
             </Typography>
             <div className="flex justify-between">
               <Input

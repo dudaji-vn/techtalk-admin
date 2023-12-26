@@ -1,18 +1,22 @@
 import axios from "axios";
+import { CLOUDINARY_CONFIG } from "../const/path";
+
 export interface ICloudinaryResponse {
   url: string;
   type: string;
 }
 export const uploadToCloudinary = async (files: File[]) => {
+  const {cloudName,cloudiaryUrl,uploadPreset} =CLOUDINARY_CONFIG
   const uploadFiles = files.map(async (file) => {
     return new Promise<ICloudinaryResponse>((resolve, reject) => {
       const formData = new FormData();
       formData.append(`file`, file);
-      formData.append("upload_preset", "guq1cwrf");
-      formData.append("cloud_name", "hoquanglinh");
+      formData.append("upload_preset", uploadPreset);
+      formData.append("cloud_name", cloudName);
+      
 
       axios
-        .post<ICloudinaryResponse>("https://api.cloudinary.com/v1_1/hoquanglinh/image/upload", formData)
+        .post<ICloudinaryResponse>(cloudiaryUrl, formData)
         .then((response) => {
           resolve({
             url: response.data.url,
