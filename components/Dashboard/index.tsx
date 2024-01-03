@@ -14,7 +14,7 @@ import SearchIcon from "../Icons/SearchIcon";
 import TotalLectureIcon from "../Icons/TotalLectureIcon";
 import Input from "../Input";
 import Typography from "../Typo";
-import { IUserCompleteLecture } from "../../interfaces/dashboard";
+import { IStatisticsScore, IUserCompleteLecture } from "../../interfaces/dashboard";
 import Loading from "../Loading";
 
 interface IAnalystItem {
@@ -217,8 +217,28 @@ const Dashboard = () => {
       colInfo: [
         { width: 12, name: "Order" },
         { width: 30, name: "Nick name" },
-        { width: 30, name: "Email" },
+        { width: 35, name: "Email" },
         { width: 25, name: "Completed at" },
+      ],
+    });
+  };
+  const handleExportStatisticsCSV = (rows: IStatisticsScore[]) => {
+    const customSource = rows.map((item) => {
+      return {
+        "Try people count": item.tryPeopleCount,
+        "Pass people count": item.passPeopleCount,
+        Sentence: item.sentence,
+        Lecture: item.lecture,
+      };
+    });
+    exportToExcel({
+      data: customSource,
+      fileName: "data.xlsx",
+      colInfo: [
+        { width: 30, name: "Try people count" },
+        { width: 30, name: "Pass people count" },
+        { width: 120, name: "Sentence" },
+        { width: 50, name: "Lecture" },
       ],
     });
   };
@@ -378,10 +398,18 @@ const Dashboard = () => {
           />
         </div>
         <div>
-          <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
-            <Typography className="mb-8 flex" type="semi-bold">
+          <div className="flex justify-between rounded p-4 bg-white border-t border-r border-l border-gray50">
+            <Typography className=" flex" type="semi-bold">
               Statistics of recording results
             </Typography>
+            <Button
+              onClick={() => statisticsScores && handleExportStatisticsCSV(statisticsScores)}
+              className="border border-primary"
+              variant="contained"
+              icon={<ExportIcon />}
+            >
+              Export CSV
+            </Button>
           </div>
 
           <DataGrid

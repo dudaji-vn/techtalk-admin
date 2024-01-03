@@ -15,6 +15,6 @@ export interface IUserCompleteLecture {
 export interface IStatisticsScore {
   tryPeopleCount: number;
   passPeopleCount: number;
-  vocabulary: string;
-  lectureName: string;
+  sentence: string;
+  lecture: string;
 }
