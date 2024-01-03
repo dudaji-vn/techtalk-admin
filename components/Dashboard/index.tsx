@@ -15,6 +15,7 @@ import TotalLectureIcon from "../Icons/TotalLectureIcon";
 import Input from "../Input";
 import Typography from "../Typo";
 import { IUserCompleteLecture } from "../../interfaces/dashboard";
+import Loading from "../Loading";
 
 interface IAnalystItem {
   icon: JSX.Element;
@@ -22,7 +23,7 @@ interface IAnalystItem {
   text: string;
 }
 const Dashboard = () => {
-  const { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures } = useApiDashboard();
+  const { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures, statisticsScores } = useApiDashboard();
   const [textSearchVN, setTextSearchVN] = useState("");
   const [textSearchKR, setTextSearchKR] = useState("");
   const filterUser = (users: IUserCompleteLecture[], text: string) => {
@@ -156,8 +157,52 @@ const Dashboard = () => {
       },
     },
   ];
+  const statisticsScoresColumns: GridColDef[] = [
+    {
+      field: "tryPeopleCount",
+      headerName: "Try people count",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "passPeopleCount",
+      headerName: "Pass people count",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "passRatio",
+      headerName: "Pass ratio",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "sentence",
+      headerName: "Sentence",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+      minWidth: 550,
+    },
+    {
+      field: "lecture",
+      headerName: "Lecture",
+      type: "string",
+      flex: 1,
+      align: "left",
+      headerAlign: "left",
+      minWidth: 400,
+    },
+  ];
 
-  const handleExportCSV = (rows: any) => {
+  const handleExportTop50CSV = (rows: any) => {
     const customSource = rows.map((item: any) => {
       return {
         Order: item.index + 1,
@@ -261,7 +306,7 @@ const Dashboard = () => {
                 placeholder="Search"
               />
               <Button
-                onClick={() => handleExportCSV(topUserCompleteLectureOfKR)}
+                onClick={() => handleExportTop50CSV(topUserCompleteLectureOfKR)}
                 className="border border-primary"
                 variant="contained"
                 icon={<ExportIcon />}
@@ -287,7 +332,7 @@ const Dashboard = () => {
             autoHeight
           />
         </div>
-        <div>
+        <div className="mb-4">
           <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
             <Typography className="mb-8 flex" type="semi-bold">
               Top 50
@@ -305,7 +350,7 @@ const Dashboard = () => {
                 placeholder="Search"
               />
               <Button
-                onClick={() => handleExportCSV(topUserCompleteLectureOfVN)}
+                onClick={() => handleExportTop50CSV(topUserCompleteLectureOfVN)}
                 className="border border-primary"
                 variant="contained"
                 icon={<ExportIcon />}
@@ -320,6 +365,34 @@ const Dashboard = () => {
             getRowId={(item) => item?.userId}
             columns={userCompletedRecordColumns}
             rows={searchTopUserCompleteLectureOfVN ?? []}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 7,
+                },
+              },
+            }}
+            pageSizeOptions={[7, 10, 20, 50]}
+            autoHeight
+            disableRowSelectionOnClick
+          />
+        </div>
+        <div>
+          <div className="rounded p-4 bg-white border-t border-r border-l border-gray50">
+            <Typography className="mb-8 flex" type="semi-bold">
+              Statistics of recording results
+            </Typography>
+          </div>
+
+          <DataGrid
+            slots={{
+              noRowsOverlay: Loading,
+              loadingOverlay: CircularProgress,
+            }}
+            className="bg-white"
+            getRowId={(item) => item?.sentence}
+            columns={statisticsScoresColumns}
+            rows={statisticsScores ?? []}
             initialState={{
               pagination: {
                 paginationModel: {

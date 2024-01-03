@@ -11,3 +11,10 @@ export interface IUserCompleteLecture {
   email: string;
   lastCompleted: string;
 }
+
+export interface IStatisticsScore {
+  tryPeopleCount: number;
+  passPeopleCount: number;
+  vocabulary: string;
+  lectureName: string;
+}
