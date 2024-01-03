@@ -1,17 +1,17 @@
-import { IFormLectureAndVocabulary, ILectureItem } from '@/interfaces/lecture';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, CircularProgress } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
-import { Control, FieldErrors, UseFormGetValues, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { IFormVocabulary, IVocabulariesByLectureResponse } from '@/interfaces/vocabulary';
-import FileUpload from '../FileUpload';
-import DeleteIcon from '../Icons/DeleteIcon';
-import InputController from '../InputController';
-import Loading from '../Loading';
+import { IFormLectureAndVocabulary, ILectureItem } from "@/interfaces/lecture";
+import CloseIcon from "@mui/icons-material/Close";
+import { Box, CircularProgress } from "@mui/material";
+import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
+import { Control, FieldErrors, UseFormGetValues, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { IFormVocabulary, IVocabulariesByLectureResponse } from "@/interfaces/vocabulary";
+import FileUpload from "../FileUpload";
+import DeleteIcon from "../Icons/DeleteIcon";
+import InputController from "../InputController";
+import Loading from "../Loading";
 
 interface ILectureContentProps {
-  type: 'create' | 'edit';
+  type: "create" | "edit";
   lecture: ILectureItem;
   vocabularies: IVocabulariesByLectureResponse[];
   control: Control<IFormLectureAndVocabulary, any>;
@@ -29,73 +29,55 @@ const LectureContent = (props: ILectureContentProps) => {
   console.log({ type });
   const columns: GridColDef[] = [
     {
-      field: 'numberOrder',
-      headerName: 'Order',
+      field: "numberOrder",
+      headerName: "Order",
       minWidth: 50,
       // editable: editable,
     },
 
     {
-      field: 'titleDisplay',
-      headerName: 'Word/ Expression',
+      field: "titleDisplay",
+      headerName: "Word/ Expression",
       minWidth: 220,
       editable: editable,
     },
     {
-      field: 'phonetic',
-      headerName: 'Phonetic',
-      type: 'string',
-      minWidth: 170,
-      align: 'left',
-      headerAlign: 'left',
+      field: "phonetic",
+      headerName: "Phonetic",
+      type: "string",
+      minWidth: 270,
+      align: "left",
+      headerAlign: "left",
       editable: editable,
     },
     {
-      field: 'textKR',
-      headerName: 'Korean meaning',
-      type: 'string',
-      minWidth: 300,
-      align: 'left',
-      headerAlign: 'left',
+      field: "textKR",
+      headerName: "Korean meaning",
+      type: "string",
+      minWidth: 400,
+      align: "left",
+      headerAlign: "left",
       editable: editable,
     },
     {
-      field: 'textVN',
-      headerName: 'Vietnamese meaning',
-      type: 'string',
-      minWidth: 300,
-      align: 'left',
-      headerAlign: 'left',
+      field: "textVN",
+      headerName: "Vietnamese meaning",
+      type: "string",
+      minWidth: 400,
+      align: "left",
+      headerAlign: "left",
       editable: editable,
     },
-    // {
-    //   field: 'actions',
-    //   type: 'actions',
-    //   headerName: 'Actions',
-    //   minWidth: 100,
-    //   cellClassName: 'actions',
-    //   getActions: ({ id }) => {
-    //     return [
-    //       <GridActionsCellItem
-    //         icon={<DeleteIcon />}
-    //         label="Edit"
-    //         className="textPrimary"
-    //         // onClick={() => handleEditClick(id)}
-    //         color="inherit"
-    //       />,
-    //     ];
-    //   },
-    // },
   ];
 
   const initRows: IVocabulariesByLectureResponse[] = Array.from(Array(10).keys()).map((item) => {
     return {
       numberOrder: item + 1,
-      phonetic: '',
-      textKR: '',
-      textVN: '',
-      titleDisplay: '',
-      vocabularyId: '',
+      phonetic: "",
+      textKR: "",
+      textVN: "",
+      titleDisplay: "",
+      vocabularyId: "",
     };
   });
   const fillFullVocabularies = useMemo(() => {
@@ -110,11 +92,11 @@ const LectureContent = (props: ILectureContentProps) => {
           }
         : {
             numberOrder: i + 1,
-            phonetic: '',
-            textKR: '',
-            textVN: '',
-            titleDisplay: '',
-            vocabularyId: '',
+            phonetic: "",
+            textKR: "",
+            textVN: "",
+            titleDisplay: "",
+            vocabularyId: "",
           };
     }
     console.log({ fullField: newVocabularies });
@@ -122,15 +104,15 @@ const LectureContent = (props: ILectureContentProps) => {
     return newVocabularies;
   }, [vocabularies]);
   useEffect(() => {
-    setValue('lectureName', type === 'create' ? '' : lecture.lectureName);
-    setValue('imgSrc', lecture.imgSrc);
+    setValue("lectureName", type === "create" ? "" : lecture.lectureName);
+    setValue("imgSrc", lecture.imgSrc);
   }, [lecture]);
   useEffect(() => {
     // debugger;
-    setValue('listVocabulary', type === 'create' ? initRows : fillFullVocabularies);
+    setValue("listVocabulary", type === "create" ? initRows : fillFullVocabularies);
   }, [fillFullVocabularies]);
   const rows = useMemo<IVocabulariesByLectureResponse[]>(() => {
-    return type === 'create'
+    return type === "create"
       ? initRows.sort((a, b) => a.numberOrder - b.numberOrder)
       : fillFullVocabularies.sort((a, b) => a.numberOrder - b.numberOrder);
   }, [vocabularies, lecture.lectureId]);
@@ -140,21 +122,27 @@ const LectureContent = (props: ILectureContentProps) => {
       <div className="p-4">
         <InputController className="w-full" label="Lecture name" name="lectureName" control={control} />
         <div className="relative w-100 my-6">
-          <FileUpload label="Attach image cover" ref={photoRef} name={'imgSrc'} control={control} error={errors?.imgSrc?.message} />
+          <FileUpload
+            label="Attach image cover"
+            ref={photoRef}
+            name={"imgSrc"}
+            control={control}
+            error={errors?.imgSrc?.message}
+          />
           <div className="absolute bottom-0 -right-6">
-            {watch('imgSrc') && (
+            {watch("imgSrc") && (
               <div className="relative">
-                <img className="h-12 object-cover" src={watch('imgSrc')} alt="" />
+                <img className="h-12 object-cover" src={watch("imgSrc")} alt="" />
                 <button
                   onClick={() => {
-                    setValue('imgSrc', '');
+                    setValue("imgSrc", "");
                     if (photoRef.current) {
-                      photoRef.current.value = '';
+                      photoRef.current.value = "";
                     }
                   }}
                   className="absolute -top-4 -right-4 bg-white h-4 w-4 flex items-center rounded-full "
                 >
-                  <CloseIcon style={{ width: '100%', height: '100%' }} fontSize={'small'} />
+                  <CloseIcon style={{ width: "100%", height: "100%" }} fontSize={"small"} />
                 </button>
               </div>
             )}
@@ -166,9 +154,9 @@ const LectureContent = (props: ILectureContentProps) => {
         </div> */}
         <Box
           sx={{
-            width: '100%',
-            height: 'calc(100vh - 400px)',
-            overflow: 'auto',
+            width: "100%",
+            height: "calc(100vh - 400px)",
+            overflow: "auto",
           }}
         >
           <DataGrid
@@ -177,18 +165,18 @@ const LectureContent = (props: ILectureContentProps) => {
               loadingOverlay: CircularProgress,
             }}
             sx={{
-              '& .MuiDataGrid-columnHeader': {
-                borderRight: '1px solid #ccc',
+              "& .MuiDataGrid-columnHeader": {
+                borderRight: "1px solid #ccc",
               },
-              '& .MuiDataGrid-cell': {
-                borderRight: '1px solid #ccc',
+              "& .MuiDataGrid-cell": {
+                borderRight: "1px solid #ccc",
               },
             }}
             rowHeight={60}
             getRowId={(item) => item?.numberOrder}
             columns={columns}
             onProcessRowUpdateError={(err) => {
-              console.log('process');
+              console.log("process");
               console.log(err);
             }}
             onStateChange={(data, event) => {
@@ -202,25 +190,29 @@ const LectureContent = (props: ILectureContentProps) => {
                 };
               }) as IVocabulariesByLectureResponse[];
 
-              if (!vocabularies || vocabularies.length === 0 || !getValues('lectureName') || !getValues('imgSrc')) {
+              if (!vocabularies || vocabularies.length === 0 || !getValues("lectureName") || !getValues("imgSrc")) {
                 setDisabled(true);
                 return;
               }
-              let vocabulariesFilter = vocabularies.filter((item) => item.phonetic || item.textKR || item.textVN || item.titleDisplay);
+              let vocabulariesFilter = vocabularies.filter(
+                (item) => item.phonetic || item.textKR || item.textVN || item.titleDisplay
+              );
               if (vocabulariesFilter.length === 0) {
                 setDisabled(true);
                 return;
               }
 
-              const isDisabled = !vocabulariesFilter.every((item) => item.phonetic && item.textKR && item.textVN && item.titleDisplay);
+              const isDisabled = !vocabulariesFilter.every(
+                (item) => item.phonetic && item.textKR && item.textVN && item.titleDisplay
+              );
               // setValue('listVocabulary', vocabularies);
               setDisabled(isDisabled);
             }}
             processRowUpdate={(newData, oldData) => {
-              let newVocabularies = getValues('listVocabulary');
+              let newVocabularies = getValues("listVocabulary");
               newVocabularies[newData.numberOrder - 1] = { ...newData };
               console.log(newVocabularies);
-              setValue('listVocabulary', newVocabularies);
+              setValue("listVocabulary", newVocabularies);
             }}
             rows={rows}
             disableRowSelectionOnClick

@@ -21,6 +21,10 @@ export const useApiDashboard = () => {
     queryKey: ["totalUserCompleteLectureByKR"],
     queryFn: () => dashboardService.getTopUserCompleteLecture({ country: "kr" }),
   });
+  const { data: statisticsScores } = useQuery({
+    queryKey: ["statisticsScores"],
+    queryFn: dashboardService.getStatisticsScore,
+  });
 
-  return { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures };
+  return { analyst, topUserCompleteLectureOfKR, topUserCompleteLectureOfVN, top5Lectures, statisticsScores };
 };

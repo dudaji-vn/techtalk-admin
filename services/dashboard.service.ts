@@ -2,7 +2,7 @@ import { dashboardEndpoint } from "@/const/apiEndpoint";
 import { IApiResponse } from "@/interfaces/http";
 import http from "./http.service";
 import { arrayWithIndexItem } from "../utils/array";
-import { IAnalyst, IUserCompleteLecture } from "../interfaces/dashboard";
+import { IAnalyst, IStatisticsScore, IUserCompleteLecture } from "../interfaces/dashboard";
 
 class DashboardService {
   async getAnalyst() {
@@ -20,6 +20,10 @@ class DashboardService {
   }
   async getTop5Lectures() {
     const res = await http.get<IApiResponse<any>>(dashboardEndpoint.getTop5Lectures);
+    return res.data.data;
+  }
+  async getStatisticsScore() {
+    const res = await http.get<IApiResponse<IStatisticsScore[]>>(dashboardEndpoint.getStatisticsScore);
     return res.data.data;
   }
 }
