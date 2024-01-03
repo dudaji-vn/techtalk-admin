@@ -21,4 +21,5 @@ export const dashboardEndpoint = {
   analyst: "dashboard/analyst",
   getTopUserCompleteLecture: "dashboard/getTopUserCompleteLecture",
   getTop5Lectures: "dashboard/getTop5Lectures",
+  getStatisticsScore: "dashboard/getStatisticsScore",
 };
