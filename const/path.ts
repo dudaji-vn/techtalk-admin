@@ -2,7 +2,7 @@ export const ROUTE = {
   signIn: "/auth/signin",
   dashboard: "/home/dashboard",
   lectures: "/home/lectures",
-  vocabularies: "/dashboard/vocabularies",
+  certificates: "/home/certificates",
 };
 export const CLOUDINARY_CONFIG = {
   cloudiaryUrl: process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",

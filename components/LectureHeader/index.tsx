@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import Typography from '../Typo';
-import InputController from '../InputController';
-import Button from '../Button';
-import Input from '../Input';
-import AddIcon from '../Icons/AddIcon';
-import ImportIcon from '../Icons/ImportIcon';
+import React, { useState } from "react";
+import Typography from "../Typo";
+import InputController from "../InputController";
+import Button from "../Button";
+import Input from "../Input";
+import AddIcon from "../Icons/AddIcon";
+import ImportIcon from "../Icons/ImportIcon";
 
-import SearchIcon from '../Icons/SearchIcon';
-import { useRouter } from 'next/navigation';
-import { ROUTE } from '../../const/path';
-import ImportExcelModal from '../ImportExcelModal';
+import SearchIcon from "../Icons/SearchIcon";
+import { useRouter } from "next/navigation";
+import { ROUTE } from "../../const/path";
+import ImportExcelModal from "../ImportExcelModal";
 
 const LectureHeader = () => {
   const router = useRouter();
@@ -18,17 +18,15 @@ const LectureHeader = () => {
     router.push(`${ROUTE.lectures}/new`);
   };
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-end">
       <ImportExcelModal
         open={isOpenModalExcel}
         onClose={() => {
           setIsOpenModalExcel(false);
         }}
       />
-      <Typography type="semi-bold">Lectures</Typography>
-      <div className="flex gap-2">
-        {/* <Input icon={<SearchIcon />} placeholder="Search" /> */}
 
+      <div className="flex gap-2">
         <Button onClick={() => setIsOpenModalExcel(true)} styles="secondary" icon={<ImportIcon />}>
           Import
         </Button>
