@@ -23,3 +23,7 @@ export const dashboardEndpoint = {
   getTop5Lectures: "dashboard/getTop5Lectures",
   getStatisticsScore: "dashboard/getStatisticsScore",
 };
+
+export const certificateEndpoint = {
+  getUsersCertificate: "certificate/getUsersCertificate",
+};
