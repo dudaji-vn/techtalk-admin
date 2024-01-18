@@ -26,7 +26,7 @@ const CertificatePage = () => {
         item.nickName,
         item.percent,
         item.score,
-      ].some((text) => text.toString().includes(textSearch));
+      ].some((text) => text.toString().toLowerCase().includes(textSearch.toLowerCase()));
     });
   }, [textSearch, usersCertificate?.length]);
 
