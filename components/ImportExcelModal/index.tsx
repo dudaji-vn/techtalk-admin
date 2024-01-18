@@ -57,7 +57,6 @@ const ImportExcelModal = (props: IImportExcelModalProps) => {
     const droppedFile = e.dataTransfer.files[0];
 
     if (droppedFile) {
-      console.log("dropped file");
       //   try {
       //     const workbook = await readExcelFile(droppedFile);
       //     console.log('Workbook:', workbook);
