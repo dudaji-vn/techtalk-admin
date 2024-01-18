@@ -5,7 +5,6 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import Link from "next/link";
 import { useMemo } from "react";
 import ShareIcon from "../Icons/ShareIcon";
-import Loading from "../Loading";
 
 interface IUserCertificateTableProps {
   data: GridRowsProp;
