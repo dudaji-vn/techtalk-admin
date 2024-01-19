@@ -251,7 +251,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-3 gap-4 mb-4">
           {analystData.map((item, index) => {
             return (
-              <div className="p-4 bg-white rounded flex flex-col gap-4">
+              <div className="border border-gray50 p-4 bg-white rounded flex flex-col gap-4">
                 {item.icon}
                 <Typography type="3xl">{item.count}</Typography>
                 <Typography type="normal">{item.text}</Typography>
