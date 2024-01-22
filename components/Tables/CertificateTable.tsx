@@ -46,7 +46,7 @@ export default function CertificatesTable(props: IUserCertificateTableProps) {
       field: "percent",
       headerName: "Highest score %",
       type: "string",
-      minWidth:130,
+      minWidth: 130,
       align: "center",
       headerAlign: "center",
     },
@@ -68,7 +68,7 @@ export default function CertificatesTable(props: IUserCertificateTableProps) {
       type: "string",
       renderCell: (params) => {
         return (
-          <Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/certificate/user/${params.value}`} target="_blank">
+          <Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/TechTalk-Certificate/${params.value}`} target="_blank">
             <ShareIcon />
           </Link>
         );
