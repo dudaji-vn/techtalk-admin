@@ -244,14 +244,14 @@ const Dashboard = () => {
   };
   return (
     <div className="">
-      <div className="p-4 border border-gray50">
+      {/* <div className="p-4 border border-gray50">
         <Typography type="semi-bold">Dashboard</Typography>
-      </div>
+      </div> */}
       <div className="p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
         <div className="grid grid-cols-3 gap-4 mb-4">
           {analystData.map((item, index) => {
             return (
-              <div className="p-4 bg-white rounded flex flex-col gap-4">
+              <div className="border border-gray50 p-4 bg-white rounded flex flex-col gap-4">
                 {item.icon}
                 <Typography type="3xl">{item.count}</Typography>
                 <Typography type="normal">{item.text}</Typography>

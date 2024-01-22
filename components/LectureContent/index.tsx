@@ -26,7 +26,7 @@ interface ILectureContentProps {
 const LectureContent = (props: ILectureContentProps) => {
   const photoRef = useRef<HTMLInputElement>(null);
   const { vocabularies, control, watch, errors, setValue, lecture, type, getValues, setDisabled, editable } = props;
-  console.log({ type });
+
   const columns: GridColDef[] = [
     {
       field: "numberOrder",
@@ -99,7 +99,6 @@ const LectureContent = (props: ILectureContentProps) => {
             vocabularyId: "",
           };
     }
-    console.log({ fullField: newVocabularies });
 
     return newVocabularies;
   }, [vocabularies]);
@@ -211,7 +210,6 @@ const LectureContent = (props: ILectureContentProps) => {
             processRowUpdate={(newData, oldData) => {
               let newVocabularies = getValues("listVocabulary");
               newVocabularies[newData.numberOrder - 1] = { ...newData };
-              console.log(newVocabularies);
               setValue("listVocabulary", newVocabularies);
             }}
             rows={rows}
