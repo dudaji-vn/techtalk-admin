@@ -15,7 +15,7 @@ export default function CertificatesTable(props: IUserCertificateTableProps) {
   const columns: GridColDef[] = [
     {
       field: "ranking",
-      headerName: "Ranking",
+      headerName: "Order",
       flex: 0.7,
       align: "center",
       headerAlign: "center",
