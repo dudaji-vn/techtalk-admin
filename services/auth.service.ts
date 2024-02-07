@@ -1,6 +1,6 @@
-import { authEndpoint } from "@/const/apiEndpoint";
-import { IFormLogin } from "@/interfaces/auth";
-import { IApiResponse } from "@/interfaces/http";
+import { authEndpoint } from "@/const/api-endpoint";
+import { IFormLogin } from "@/interfaces/auth.interface";
+import { IApiResponse } from "@/interfaces/http.interface";
 import http from "./http.service";
 
 class AuthService {

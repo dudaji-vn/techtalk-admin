@@ -1,7 +1,7 @@
 "use client";
-import InputController from "@/components/InputController";
-import { keyStorage } from "@/const/keyStorage";
-import { IFormLogin } from "@/interfaces/auth";
+import InputController from "@/components/input-controller";
+import { keyStorage } from "@/const/key-storage";
+import { IFormLogin } from "@/interfaces/auth.interface";
 import { authService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

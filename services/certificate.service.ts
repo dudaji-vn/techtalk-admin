@@ -1,6 +1,6 @@
-import { IApiResponse } from "@/interfaces/http";
-import { certificateEndpoint } from "@/const/apiEndpoint";
-import { IUserCertificate } from "@/interfaces/certificate";
+import { IApiResponse } from "@/interfaces/http.interface";
+import { certificateEndpoint } from "@/const/api-endpoint";
+import { IUserCertificate } from "@/interfaces/certificate.interface";
 import http from "./http.service";
 
 class CertificateService {

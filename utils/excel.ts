@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import { IExportExcelParams } from "../interfaces/excel";
+import { IExportExcelParams } from "../interfaces/excel.interface";
 import Excel from "exceljs";
 
 export const convertXLSXtoCSV = (file: File): Promise<string> => {

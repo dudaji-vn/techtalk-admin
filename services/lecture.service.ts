@@ -1,7 +1,7 @@
-import { IApiResponse } from '@/interfaces/http';
-import { lectureEndpoint } from '@/const/apiEndpoint';
-import { IChangeStatusLectureRequest, IFormLectureAndVocabulary, ILectureItem } from '@/interfaces/lecture';
-import http from './http.service';
+import { IApiResponse } from "@/interfaces/http.interface";
+import { lectureEndpoint } from "@/const/api-endpoint";
+import { IChangeStatusLectureRequest, IFormLectureAndVocabulary, ILectureItem } from "@/interfaces/lecture.interface";
+import http from "./http.service";
 
 class LectureService {
   async getAllLecture() {

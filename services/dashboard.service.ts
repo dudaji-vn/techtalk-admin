@@ -1,8 +1,8 @@
-import { dashboardEndpoint } from "@/const/apiEndpoint";
-import { IApiResponse } from "@/interfaces/http";
+import { dashboardEndpoint } from "@/const/api-endpoint";
+import { IApiResponse } from "@/interfaces/http.interface";
 import http from "./http.service";
 import { arrayWithIndexItem } from "../utils/array";
-import { IAnalyst, IStatisticsScore, IUserCompleteLecture } from "../interfaces/dashboard";
+import { IAnalyst, IStatisticsScore, IUserCompleteLecture } from "../interfaces/dashboard.interface";
 
 class DashboardService {
   async getAnalyst() {

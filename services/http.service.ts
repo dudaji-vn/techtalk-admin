@@ -1,6 +1,6 @@
-import axios, { type AxiosInstance } from 'axios';
-import { keyStorage } from '../const/keyStorage';
-import { baseApiUrl } from '../const/apiEndpoint';
+import axios, { type AxiosInstance } from "axios";
+import { keyStorage } from "@/const/key-storage";
+import { baseApiUrl } from "@/const/api-endpoint";
 
 export class Http {
   instance: AxiosInstance;
@@ -8,7 +8,7 @@ export class Http {
     this.instance = axios.create({
       baseURL: baseApiUrl,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
