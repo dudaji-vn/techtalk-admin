@@ -1,12 +1,8 @@
 "use client";
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/common/loader";
 import { useEffect, useState } from "react";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -18,9 +14,7 @@ export default function AuthLayout({
       {loading ? (
         <Loader />
       ) : (
-        <div className="fixed top-0 flex h-full w-full bg-blackCt items-center justify-center">
-          {children}
-        </div>
+        <div className="fixed top-0 flex h-full w-full bg-blackCt items-center justify-center">{children}</div>
       )}
     </div>
   );

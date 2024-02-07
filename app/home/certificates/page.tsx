@@ -1,12 +1,11 @@
 "use client";
-import SearchIcon from "@/components/Icons/SearchIcon";
-import Input from "@/components/Input";
-import CertificatesTable from "@/components/Tables/CertificateTable";
-import { useApiCertificate } from "@/hooks/api/useApiCertificate";
-import protectPage from "@/router/protectPage";
-import { useMemo, useState } from "react";
-import { IUserCertificate } from "@/interfaces/certificate";
+import SearchIcon from "@/components/icons/search-icon";
+import Input from "@/components/input";
+import CertificatesTable from "@/components/tables/certificate-table";
+import { useApiCertificate } from "@/hooks/api/use-api-certificate";
+import protectPage from "@/router/protect-page";
 import { formateDateWithoutTime } from "@/utils/date";
+import { useMemo, useState } from "react";
 
 const CertificatePage = () => {
   const { usersCertificate } = useApiCertificate();

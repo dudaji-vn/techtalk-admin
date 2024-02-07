@@ -1,6 +1,6 @@
-'use client';
-import Dashboard from '@/components/Dashboard';
-import protectPage from '@/router/protectPage';
+"use client";
+import Dashboard from "@/components/dashboard";
+import protectPage from "@/router/protect-page";
 
 const DashboardPage = () => {
   return <Dashboard />;

@@ -1,20 +1,20 @@
-'use client';
-import Button from '@/components/Button';
-import ArrowLeftIcon from '@/components/Icons/ArrowLeftIcon';
-import DotIcon from '@/components/Icons/DotIcon';
-import LectureContent from '@/components/LectureContent';
-import Tabs from '@/components/Tabs';
-import Typography from '@/components/Typo';
-import { IChangeStatusLectureRequest, IFormLectureAndVocabulary, ILectureItem } from '@/interfaces/lecture';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Dropdown from '@/components/DropDown';
-import { ROUTE } from '@/const/path';
-import { useApiLecture } from '@/hooks/api/useApiLecture';
-import { useApiVocabulary } from '@/hooks/api/useApiVocabulary';
-import UnPublishModal from '@/components/UnPublishModal';
-import PublishModal from '@/components/PublishModal';
+"use client";
+import Button from "@/components/button";
+import ArrowLeftIcon from "@/components/icons/arro-left-icon";
+import DotIcon from "@/components/icons/dot-icon";
+import LectureContent from "@/components/lecture-content";
+import Tabs from "@/components/tabs";
+import Typography from "@/components/typo";
+import { IChangeStatusLectureRequest, IFormLectureAndVocabulary, ILectureItem } from "@/interfaces/lecture.interface";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import Dropdown from "@/components/dropdown";
+import { ROUTE } from "@/const/path";
+import { useApiLecture } from "@/hooks/api/use-api-lecture";
+import { useApiVocabulary } from "@/hooks/api/use-api-vocabulary";
+import UnPublishModal from "@/components/unpublish-modal";
+import PublishModal from "@/components/publish-modal";
 
 const DetailLecture = () => {
   const {
@@ -27,7 +27,7 @@ const DetailLecture = () => {
     formState: { errors },
   } = useForm<IFormLectureAndVocabulary>({
     defaultValues: {
-      status: 'Draft',
+      status: "Draft",
     },
   });
   const { lectures, addLectureAndVocabulary, changeStatusLecture } = useApiLecture();
@@ -40,25 +40,25 @@ const DetailLecture = () => {
 
   const { vocabularies } = useApiVocabulary(params.slug as string);
   useEffect(() => {
-    if (!getValues('lectureName')) {
+    if (!getValues("lectureName")) {
       setDisabled(true);
     }
 
-    if (!getValues('imgSrc')) {
+    if (!getValues("imgSrc")) {
       setDisabled(true);
     }
-  }, [watch('lectureName'), watch('imgSrc')]);
+  }, [watch("lectureName"), watch("imgSrc")]);
 
   useEffect(() => {
-    if (params.slug !== 'new') {
-      setValue('lectureId', params.slug as string);
+    if (params.slug !== "new") {
+      setValue("lectureId", params.slug as string);
     }
   }, [params.slug]);
   const lecturesByType = useMemo<ILectureItem[]>(() => {
     if (!lectures) {
       return [];
     }
-    return [{ lectureId: 'new', lectureName: 'New lecture', imgSrc: '', status: 'Draft' }, ...lectures];
+    return [{ lectureId: "new", lectureName: "New lecture", imgSrc: "", status: "Draft" }, ...lectures];
   }, [lectures]);
   const activeIndexLecture: number = useMemo(() => {
     if (!lecturesByType) {
@@ -69,7 +69,7 @@ const DetailLecture = () => {
 
   const status = useMemo(() => {
     if (!lecturesByType) {
-      return 'Draft';
+      return "Draft";
     }
     return lecturesByType.find((item) => item.lectureId === params.slug)?.status;
   }, [params.slug, lecturesByType?.length]);
@@ -82,12 +82,12 @@ const DetailLecture = () => {
     addLectureAndVocabulary(data);
   });
   const handlePublishLecture = () => {
-    if (params.slug === 'new') {
+    if (params.slug === "new") {
       return;
     }
     const payload: IChangeStatusLectureRequest = {
       lectureId: params.slug as string,
-      status: 'Published',
+      status: "Published",
     };
     changeStatusLecture(payload);
   };
@@ -109,7 +109,7 @@ const DetailLecture = () => {
 
       <PublishModal
         onConfirm={() => {
-          status === 'Draft' ? onSubmit() : handlePublishLecture();
+          status === "Draft" ? onSubmit() : handlePublishLecture();
         }}
         onClose={() => {
           setIsOpenModalPublish(false);
@@ -126,7 +126,7 @@ const DetailLecture = () => {
               <ArrowLeftIcon />
             </div>
             {lecturesByType && lecturesByType.length > 0 && activeIndexLecture >= 0 && (
-              <div>{params.slug === 'new' ? 'New lecture' : lecturesByType[activeIndexLecture].lectureName} </div>
+              <div>{params.slug === "new" ? "New lecture" : lecturesByType[activeIndexLecture].lectureName} </div>
             )}
           </div>
 
@@ -135,7 +135,7 @@ const DetailLecture = () => {
 
             <div className="gap-2 flex items-center">
               <DotIcon status={status} />
-              <Typography className={`text-sm ${status === 'Draft' ? 'text-warning ' : 'text-success'}`} type="small">
+              <Typography className={`text-sm ${status === "Draft" ? "text-warning " : "text-success"}`} type="small">
                 {status}
               </Typography>
             </div>
@@ -145,7 +145,7 @@ const DetailLecture = () => {
               {/* <Button styles={'primary'} disabled={disabled}>
                 Save
               </Button> */}
-              {status === 'Published' && (
+              {status === "Published" && (
                 <Button
                   type="button"
                   onClick={() => {
@@ -156,20 +156,20 @@ const DetailLecture = () => {
                   UnPublish
                 </Button>
               )}
-              {status === 'Draft' && (
+              {status === "Draft" && (
                 <Dropdown
                   onChange={(data) => {
                     console.log(data);
-                    setValue('status', data as any);
-                    if (data === 'Published') {
+                    setValue("status", data as any);
+                    if (data === "Published") {
                       setIsOpenModalPublish(true);
                     } else {
                       onSubmit();
                     }
                   }}
                   options={[
-                    { label: 'Save as draft', value: 'Draft' },
-                    { label: 'Publish', value: 'Published' },
+                    { label: "Save as draft", value: "Draft" },
+                    { label: "Publish", value: "Published" },
                   ]}
                 />
               )}
@@ -188,10 +188,10 @@ const DetailLecture = () => {
               label: lecture.lectureName,
               children: (
                 <LectureContent
-                  editable={status === 'Draft'}
+                  editable={status === "Draft"}
                   setDisabled={setDisabled}
                   getValues={getValues}
-                  type={lecture.lectureId === 'new' ? 'create' : 'edit'}
+                  type={lecture.lectureId === "new" ? "create" : "edit"}
                   key={lecture.lectureId}
                   lecture={lecture}
                   vocabularies={vocabularies ?? []}

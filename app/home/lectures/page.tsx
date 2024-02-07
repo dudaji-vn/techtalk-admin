@@ -1,7 +1,7 @@
-'use client';
-import Lectures from '@/components/Lectures';
-import { useApiLecture } from '@/hooks/api/useApiLecture';
-import protectPage from '@/router/protectPage';
+"use client";
+import Lectures from "@/components/lectures";
+import { useApiLecture } from "@/hooks/api/use-api-lecture";
+import protectPage from "@/router/protect-page";
 
 const LecturesPage = () => {
   const { lectures } = useApiLecture();
