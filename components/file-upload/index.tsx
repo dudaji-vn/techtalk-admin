@@ -1,6 +1,6 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
-import { uploadToCloudinary } from '../../utils/uploadToCloudinary';
+import React from "react";
+import { Controller } from "react-hook-form";
+import { uploadToCloudinary } from "../../utils/upload-to-cloudinary";
 
 type TPhoto = {
   name: string;
@@ -48,7 +48,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, TPhoto>((props, ref) => {
               id={name}
               ref={ref}
               onChange={(event) => handleChange(event, onChange)}
-              type={'file'}
+              type={"file"}
               accept="image/jpeg, image/png, video/mp4"
             />
             {error && <div className="absolute -bottom-6 text-[15px] text-redCt">{error}</div>}
